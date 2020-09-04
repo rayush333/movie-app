@@ -1,0 +1,19 @@
+{
+  "name": "movie-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm run setup-frontend && npm run setup-backend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd ./movie_app_node &&  node index.js",
+    "client": "cd ./movie_app_react && npm start",
+    "setup-frontend": "cd movie_app_react && npm install",
+    "setup-backend": "cd movie_app_node && npm install"
+  },
+  "dependencies": {
+    "concurrently": "^3.6.1"
+  },
+  "author": "",
+  "license": "ISC"
+}

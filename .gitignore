@@ -1,0 +1,5 @@
+
+# dependencies
+/node_modules
+/movie_app_node/node_modules
+/movie_app_react/node_modules
