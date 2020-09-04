@@ -14,6 +14,6 @@ app.use("/api/users", users);
 
 
 
-app.listen(4000, () => { console.log("listening port 4002") });
+app.listen(4000, () => { console.log("listening port 4000") });
 
 
