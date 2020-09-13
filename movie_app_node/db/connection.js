@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const URI = "mongodb+srv://movieAppUser:movieAppUser@cluster0.snf73.mongodb.net/Movie-App-Clone?retryWrites=true&w=majority";
 const Genre = require("./schema/genre");
 const Movie = require("./schema/movie");
