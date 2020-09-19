@@ -11,6 +11,8 @@ connectDB;
 const genres = require("./routes/genres");
 const movies = require("./routes/movies");
 const users = require("./routes/users");
+const auth = require("./routes/auth");
+
 
 //Please add Access-Control-Allow-Origin extension in your browser
 app.use((req, res, next) => {
@@ -22,5 +24,7 @@ app.use(express.json())
 app.use("/api/genres", genres);
 app.use("/api/movies", movies);
 app.use("/api/users", users);
+app.use("/api/auth", auth);
+
 
 app.listen(4000, () => { console.log("listening port 4000") });
