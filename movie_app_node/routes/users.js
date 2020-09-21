@@ -1,7 +1,9 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const router = express.Router();
-const User = mongoose.model("User")
+const bcrypt = require("bcrypt");
+const _ = require('lodash')
+const { User, validate }= require("../db/schema/user");
+const { unsubscribe } = require('./genres');
 
 
 router.get("/", exports.getGenres = (req,res)=>{
@@ -12,18 +14,26 @@ router.get("/", exports.getGenres = (req,res)=>{
     .catch((error)=> res.status(500).json(error));
 })
 
-router.post("/add", (req,res)=>{
-    var userSchema = new User();
-    userSchema.userName = req.body.userName;
-    userSchema.userEmailId = req.body.userEmailId;
-    userSchema.userPassword = req.body.userPassword;
-    userSchema.save((err, doc)=>{
-        if(!err) {
-            console.log(doc);
-            res.status(201).json({ message: "User added successfuly" })
-        } else {
-            res.status(500).json({ message: "Error adding User"})
-        }
-    })
+router.post("/", async (req,res)=>{
+
+    const { error } = validate(req.body);
+    if (error) { return res.status(400).send(error); }
+    let user = await User.findOne({email:req.body.email});
+    console.log("user:-",user);
+    if(user) {
+        return res.status(400).json({msg:"User already exist"});
+    }
+    user = new User(_.pick(req.body,["name","email","password"]));
+    try {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+        user = await user.save();
+        console.log("User : ", user);
+        const token = user.generateAuthToken();
+        return res.header("x-auth-token",token).status(200).json(_.pick(req.body,["name","email"]));
+    } catch (ex) {
+        console.log("Error while saving document User: ", ex.message);
+        return res.json(ex.message)
+    }
 })
 module.exports = router;
