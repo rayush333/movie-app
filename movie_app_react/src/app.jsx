@@ -7,7 +7,7 @@ import UserLayout from "layouts/User.jsx";
 import HomeLayout from "layouts/Home.jsx"
 
 import AuthenticatedComponent from "components/Auth/Authenticated.jsx";
-import PrivateRoute from "components/Auth/PrivateRoute.jsx";
+import {PrivateRoute} from "components/Auth/PrivateRoute.jsx";
 
 
 class App extends Component {
@@ -18,9 +18,9 @@ class App extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route path="/login" exact render={props => <LoginLayout {...props} />} />
-                    <Route path="/admin" render={props => <AdminLayout {...props} />} />
-                    <Route path="/user" render={props => <UserLayout {...props} />} />
-                    <Route path="/home" render={props => <HomeLayout {...props} />} />
+                    <PrivateRoute path="/admin" role="ROLE_ADMIN" component={AdminLayout}></PrivateRoute>
+                    <PrivateRoute path="/user" role="ROLE_USER" component={UserLayout}></PrivateRoute> 
+                    <Route path="/" render={props => <HomeLayout {...props} />} />
                     {/* <PrivateRoute path="/admin" component={AdminLayout}></PrivateRoute>
                     <PrivateRoute path="/user" component={UserLayout}></PrivateRoute> */}
 
