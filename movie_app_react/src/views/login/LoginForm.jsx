@@ -6,6 +6,9 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import { Row, Col } from "react-bootstrap";
 import axios from 'axios';
 
+import { Auth } from "components/Auth/PrivateRoute.jsx";
+
+
 
 
 
@@ -13,11 +16,13 @@ import axios from 'axios';
 export class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this)
-    this.state = {login: { email: null, password:null}}
-    this.handleChange = this.handleChange.bind(this)
 
+    this.handleLogin = this.handleLogin.bind(this)
+    this.state = { login: { email: null, password: null } }
+    this.handleChange = this.handleChange.bind(this)
+    
   }
+
 
   handleChange(e) {
     console.log("check", e.target.value)
@@ -26,21 +31,27 @@ export class LoginForm extends Component {
     data[e.target.name] = e.target.value
     this.setState({ login: data });
     console.log(this.state.login)
-
   }
 
   handleLogin(e) {
     const login = this.state.login;
-    axios.post(`http://localhost:3010/api/auth`, login)
-    .then(res => {
-      console.log(res.data);
-      this.props.history.push('/user/dashboard')
-    })
-    .catch(error => {
-      console.log(error.response.data)
-  });
+    axios.post(`http://localhost:4000/api/auth`, login)
+      .then(res => {
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('role', res.data.role);
+        Auth.authenticate();
+        if (res.data.role == "ROLE_ADMIN") {
+          this.props.history.push('/admin/dashboard')
+        } else {
+          this.props.history.push('/user/dashboard')
+        }
+      })
+      .catch(error => {
+        Auth.authenticate(false);
+        console.log(error.response.data)
+      });
 
-    
+
   }
 
   render() {
@@ -68,7 +79,7 @@ export class LoginForm extends Component {
                               {
                                 label: "",
                                 type: "text",
-                                name:"email",
+                                name: "email",
                                 onChange: this.handleChange,
                                 bsClass: "form-control ",
                                 placeholder: "Username",
@@ -82,7 +93,7 @@ export class LoginForm extends Component {
                               {
                                 label: "",
                                 type: "password",
-                                name:"password",
+                                name: "password",
                                 onChange: this.handleChange,
                                 bsClass: "form-control ",
                                 placeholder: "Password",

@@ -1,31 +1,32 @@
-import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import React, { Component } from "react";
 
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+        Auth.isAuthenticated && rest.role == Auth.role
+        ? <Component {...props} />
+        : <Redirect to='/login' />
+    )} />
+  )
 
-class PrivateRoute extends Component {
+  const Auth = {
+    isAuthenticated: false,
+    role:null,
+    authenticate() {
+        if(localStorage.getItem('token') != null){
+            this.isAuthenticated = true;
+            this.role = localStorage.getItem('role');
+        }
+      console.log("isAuthenticated",this.isAuthenticated)
+    },
+    signout(val) {
+        this.isAuthenticated = val;
+        this.role = null;      
+        console.log("isAuthenticated",this.isAuthenticated);
+        localStorage.clear();
 
-    constructor(props) {
-        super(props);
-        console.log("private routes", this.props)
-        this.state = {};
     }
+  }
 
-    componentDidMount() {
-        this.setState({ authenicated: false })
-
-    }
-
-    render() {
-        return (
-            <div>
-                {this.state.authenicated ? <Route path={this.props.path} component={this.props.component} exact={true}></Route>
-                    : <Redirect to="/login"></Redirect>}
-            </div>
-        );
-    }
-
-}
-
-export default PrivateRoute;
-
+  export {PrivateRoute,Auth};
