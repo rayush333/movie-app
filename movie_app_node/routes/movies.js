@@ -12,6 +12,14 @@ router.get("/", (req,res)=>{
     .catch((error)=> res.status(500).json(error));
 })
 
+router.get("/:genere", (req,res)=>{
+    Movie.find({movieGenre:req.params.genere})
+        .then((docs)=>{
+            return res.status(200).json(docs);
+        })
+        .catch((error)=> res.status(500).json(error));
+})
+
 router.post("/add", (req,res)=>{
     var movieSchema = new Movie();
     movieSchema.movieTitle = req.body.movieTitle;

@@ -10,7 +10,7 @@ class MovieBrowser extends React.Component {
      movies: []
    };
    this.getMoviesFromMongo = this.getMoviesFromMongo.bind(this);
-
+   this.getGenereFromMongo = this.getGenereFromMongo.bind(this);
   }
   async getMoviesFromMongo()  {
       await axios(
@@ -19,10 +19,27 @@ class MovieBrowser extends React.Component {
         this.setState({ movies: response.data })
     })
   };
-    
-  componentDidMount() {
-    this.getMoviesFromMongo();
-  }
+
+    async getGenereFromMongo()  {
+        const result = await axios(
+            'http://localhost:4000/api/genres')
+            .then(response => {
+                this.setState({ genres: response.data });
+            })
+    };
+
+    componentDidMount() {
+        this.getMoviesFromMongo();
+        this.getGenereFromMongo();
+    }
+
+    async getMoviesFromGenre(genre)  {
+        await axios(
+            'http://localhost:4000/api/movies/'+genre)
+            .then(response => {
+                this.setState({ movies: response.data })
+            })
+    };
 
   render() {
    
