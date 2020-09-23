@@ -2,6 +2,7 @@ import React from 'react';
 import EllipsisText from "react-ellipsis-text";
 import ReactCardFlip from 'react-card-flip';
 import movieImgDefault from 'assets/img/movieAltImg.png'
+import isUrl from 'is-url';
 
 class MovieCard extends React.Component {
 
@@ -26,13 +27,15 @@ class MovieCard extends React.Component {
             <div className="card-wrapper">
                 <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal" flipSpeedFrontToBack="0.3" flipSpeedBackToFront="0.3">
                     <div className="front">
-                        <span className="rating">{movie.movieRating}</span>
-                        <img className="movie-image" src={movie.movieImage || movieImgDefault} alt=""  onClick={this.handleClick}/>
+                        {!isNaN(movie.movieRating) &&
+                            <span className="rating">{movie.movieRating}</span>
+                        }
+                        <img className="movie-image" src={isUrl(movie.movieImage) ? movie.movieImage : movieImgDefault} alt=""  onClick={this.handleClick}/>
                         <div className="card-footer">
                             <div>
                                 <h4 className="movie-title">{movie.movieTitle}</h4>
-                                <p className="duration-genre">{movie.movieDuration} - <EllipsisText text={movie.movieGenre} length={"25"}/> </p>
-                                <a className="movie-trailer" target='_blank' href={movie.movieTrailerUrl} rel="noopener noreferrer">
+                                <p className="duration-genre">{movie.movieDuration} - <EllipsisText text={movie.movieGenre} length={25}/> </p>
+                                <a className="movie-trailer" target='_blank' href={ movie.movieTrailerUrl } rel="noopener noreferrer">
                                     Watch Trailer
                                 </a>
                             </div>

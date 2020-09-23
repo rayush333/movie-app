@@ -9,9 +9,11 @@
     "axios": "^0.19.2",
     "bootstrap": "3.3.7",
     "chartist": "0.10.1",
+    "is-url": "^1.2.4",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-bootstrap": "0.32.4",
+    "react-card-flip": "^1.0.11",
     "react-chartist": "0.13.3",
     "react-dom": "^16.13.1",
     "react-ellipsis-text": "^1.2.1",
@@ -23,8 +25,7 @@
     "react-scripts": "3.4.3",
     "react-toggle": "4.0.2",
     "redux": "^4.0.5",
-    "save": "^2.4.0",
-    "react-card-flip": "^1.0.11"
+    "save": "^2.4.0"
   },
   "devDependencies": {
     "@types/googlemaps": "3.30.19",
