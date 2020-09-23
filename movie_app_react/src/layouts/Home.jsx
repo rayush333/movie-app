@@ -96,10 +96,10 @@ class Home extends Component {
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
-          <Footer />
-          
+
         </div>
         <MovieBrowser/>
+        <Footer />
       </div>
     );
   }
