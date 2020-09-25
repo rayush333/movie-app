@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
+    Auth.authenticate(),
     <Route {...rest} render={(props) => (
         Auth.isAuthenticated && rest.role == Auth.role
         ? <Component {...props} />
@@ -30,3 +31,5 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   }
 
   export {PrivateRoute,Auth};
+
+

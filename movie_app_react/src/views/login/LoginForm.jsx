@@ -20,7 +20,16 @@ export class LoginForm extends Component {
     this.handleLogin = this.handleLogin.bind(this)
     this.state = { login: { email: null, password: null } }
     this.handleChange = this.handleChange.bind(this)
-    
+
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('token') != null && localStorage.getItem('role') === "ROLE_ADMIN") {
+      this.props.history.push('/admin/dashboard')
+    }
+    if (localStorage.getItem('token') != null && localStorage.getItem('role') === "ROLE_USER") {
+      this.props.history.push('/user/dashboard')
+    }
   }
 
 
@@ -39,6 +48,8 @@ export class LoginForm extends Component {
       .then(res => {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('role', res.data.role);
+        localStorage.setItem('name', res.data.name);
+
         Auth.authenticate();
         if (res.data.role == "ROLE_ADMIN") {
           this.props.history.push('/admin/dashboard')
@@ -59,7 +70,7 @@ export class LoginForm extends Component {
       <div className="card card-user">
         <div className="content">
           <div className="author" style={{ marginTop: 0 }}>
-            <a href="#pablo">
+            <a >
               <img
                 className="avatar border-gray"
                 src={this.props.avatar}

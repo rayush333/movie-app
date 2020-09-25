@@ -17,7 +17,7 @@ router.post('/', async function (req, res) {
         const isValid = await bcrypt.compare(req.body.password, user.password)
         if (!isValid) return res.status(400).json({msg:"Invalid Username or Password"});
         const token = user.generateAuthToken();
-        return res.json({"token":token,"msg":"login successfull","role":user.role});
+        return res.json({"token":token,"msg":"login successfull","role":user.role,"name":user.name});
     } catch (ex) {
         console.log("login", ex.message);
         return res.send(ex.message)

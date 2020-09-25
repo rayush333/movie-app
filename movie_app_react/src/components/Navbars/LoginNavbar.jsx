@@ -31,7 +31,7 @@ class Header extends Component {
       <Navbar fluid>
         <Navbar.Header>
           <Navbar.Brand>
-            APP
+            WildCards Movies
           </Navbar.Brand>
         </Navbar.Header>
       </Navbar>
