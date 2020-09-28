@@ -75,7 +75,16 @@
     opacity: 1;
     color: #FFFFFF;
 }
-
+.sidebar .nav > li.active a{
+  background: rgba(255, 255, 255, 0.14);
+  opacity: 1;
+  color: #FFFFFF;
+}
+.noresult{
+  padding: 100px;
+  font-weight: bold;
+  font-size: 24px;
+}
 .table-upgrade td:nth-child(2),
 .table-upgrade td:nth-child(3){
     text-align: center;

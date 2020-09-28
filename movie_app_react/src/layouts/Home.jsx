@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
-
+import { Route, Switch ,Link, matchPath } from "react-router-dom";
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 import MovieBrowser from "modules/moviebrowser/MovieBrowserContainer";
 import routes from "routes.js";
 import image from "assets/img/sidebar-3.jpg";
+import logo from "assets/img/reactlogo.png";
+const axios = require('axios');
 
 class Home extends Component {
   constructor(props) {
@@ -19,6 +20,20 @@ class Home extends Component {
       fixedClasses: "dropdown show-dropdown open"
     };
     console.log("props",this.props)
+    this.getGenereFromMongo = this.getGenereFromMongo.bind(this);
+  }
+
+
+  async getGenereFromMongo() {
+    const result = await axios(
+      'http://localhost:4000/api/genres')
+      .then(response => {
+        this.setState({ genres: response.data });
+        console.log(this.state.genres);
+      })
+  };
+  componentDidMount(){
+    this.getGenereFromMongo();
   }
 
   getRoutes = routes => {
@@ -87,18 +102,48 @@ class Home extends Component {
   render() {
     return (
       <div className="wrapper">
-        <Sidebar {...this.props} routes={routes} image={this.state.image}
+        <div
+          id="sidebar"
+          className="sidebar">
+             <div className="logo">
+          <a
+            href="https://www.creative-tim.com?ref=lbd-sidebar"
+            className="simple-text logo-mini"
+          >
+            <div className="logo-img">
+              <img src={logo} alt="logo_image" />
+            </div>
+          </a>
+          <a
+            href="https://www.creative-tim.com?ref=lbd-sidebar"
+            className="simple-text logo-normal"
+          >
+            WildCards Movies
+          </a>
+        </div>
+          <div className="sidebar-wrapper">
+            <ul className="nav">
+              <li className={matchPath(this.props.location.pathname, { path: '/' }) ? 'active' : ''}>
+                <Link to="/">Dashboard</Link>
+              </li >
+              {this.state.genres && this.state.genres.map((prop, key) => {
+              return (  <li key={key} className={matchPath(this.props.location.pathname, { path: `/movie/${prop.genre}` }) ? 'active' : ''} > <Link  to={`/movie/${prop.genre}`} >{prop.genre}</Link></li>);  
+              })}
+            </ul>
+          </div>
+        </div>
+        {/* <Sidebar {...this.props} routes={routes} image={this.state.image}
         color={this.state.color}
-        hasImage={this.state.hasImage}/>
+        hasImage={this.state.hasImage}/> */}
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
+          <MovieBrowser/>
           <Footer />
         </div>
-        <MovieBrowser/>
       </div>
     );
   }
