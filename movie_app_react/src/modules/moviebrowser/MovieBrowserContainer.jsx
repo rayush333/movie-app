@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router";
 import MovieList from './movielist/MovieList';
 import InfiniteScroll from 'react-infinite-scroll-component'
 const axios = require('axios');
@@ -12,7 +13,6 @@ class MovieBrowser extends React.Component {
      count: 20,
      start: 0
    };
-   this.getGenereFromMongo = this.getGenereFromMongo.bind(this);
    this.fetchNextMovies = this.fetchNextMovies.bind(this);
   }
    getMoviesFromMongo()  {
@@ -34,17 +34,22 @@ class MovieBrowser extends React.Component {
             })
     }
 
-    async getGenereFromMongo()  {
-        const result = await axios(
-            'http://localhost:4000/api/genres')
-            .then(response => {
-                this.setState({ genres: response.data });
-            })
-    };
 
     componentDidMount() {
-        this.getMoviesFromMongo();
-        this.getGenereFromMongo();
+        if(this.props.match.params.gener)
+            this.getMoviesFromGenre(this.props.match.params.gener);
+        else
+            this.getMoviesFromMongo();
+
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params !== this.props.match.params) {
+            if(this.props.match.params.gener)
+                this.getMoviesFromGenre(this.props.match.params.gener);
+            else
+                this.getMoviesFromMongo();
+        }
     }
 
     async getMoviesFromGenre(genre)  {
@@ -63,11 +68,16 @@ class MovieBrowser extends React.Component {
               dataLength={this.state.movies.length}
               next={this.fetchNextMovies}
               hasMore={true}>
+                {this.state.movies.length > 0 &&
                     <MovieList movies={this.state.movies} isLoading={this.state.isLoading} />
+                }
+                {this.state.movies.length == 0 &&
+                    <div className="noresult">No Results Found</div>
+                }
         </InfiniteScroll>
       </div>
     );
   }
 }
 
-export default MovieBrowser;
+export default withRouter(MovieBrowser);
