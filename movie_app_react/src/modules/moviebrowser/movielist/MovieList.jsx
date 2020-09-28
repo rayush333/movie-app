@@ -1,13 +1,15 @@
 import React from 'react';
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col, Grid} from 'react-bootstrap';
 import MovieCard from '../moviecard/MovieCard';
+import Loader from "../../../components/Loader/LoaderComponent";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const styles = {
   movieColumn: {
-    marginBottom: 20
+    marginBottom: 40
   }
 }
-const MovieList = ({movies}) => {
+const MovieList = ({movies, isLoading}) => {
    const movieColumns = movies.length > 0 && movies.map(movie => (
      <Col style={styles.movieColumn} key={movie._id} xs={12} sm={4} md={3} lg={3}>
        <MovieCard movie={movie} />
@@ -15,9 +17,12 @@ const MovieList = ({movies}) => {
    ));
 
   return (
-    <Row>
-        {movieColumns}
-    </Row>
+      <Grid className="movies-grid">
+         <Row className="movies-row">
+           {movieColumns}
+           <Loader isLoading={isLoading} />
+         </Row>
+      </Grid>
   );
 }
 
