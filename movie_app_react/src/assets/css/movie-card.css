@@ -1,8 +1,19 @@
 .movies-grid {
     padding: 5rem;
+    margin-left: 25rem;
 }
+
+.movies-row {
+    padding: 5rem;
+    margin-right: -320px;
+}
+.infinite-scroll {
+    overflow: visible !important;
+}
+
 .card-container {
     position: relative;
+    margin-top: 3rem;
     perspective: 1000px;
     width: 250px;
     height: 350px;

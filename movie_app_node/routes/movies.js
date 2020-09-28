@@ -4,12 +4,20 @@ const router = express.Router();
 const Movie = mongoose.model("Movie")
 
 
-router.get("/", (req,res)=>{
-    Movie.find()
+router.get("/count=:count&start=:start", (req,res)=>{
+    Movie.find().limit(Number(req.params.count)).skip(Number(req.params.start))
     .then((docs)=>{
         return res.status(200).json(docs);
     })
     .catch((error)=> res.status(500).json(error));
+})
+
+router.get("/", (req,res)=>{
+    Movie.find()
+        .then((docs)=>{
+            return res.status(200).json(docs);
+        })
+        .catch((error)=> res.status(500).json(error));
 })
 
 router.get("/:genre", (req,res)=>{

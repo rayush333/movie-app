@@ -9,6 +9,7 @@ import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 import "./assets/css/movie-card.css";
+import "./assets/css/loader.css";
 import {createStore} from 'redux';
 import {Provider} from 'react-redux'
 import App from "app";

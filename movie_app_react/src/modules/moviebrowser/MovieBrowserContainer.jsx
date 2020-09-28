@@ -1,24 +1,38 @@
 import React from "react";
-import {Grid, Row} from "react-bootstrap";
 import MovieList from './movielist/MovieList';
+import InfiniteScroll from 'react-infinite-scroll-component'
 const axios = require('axios');
 
 class MovieBrowser extends React.Component {
   constructor(props) {
     super(props);
     this.state= {
-     movies: []
+     movies: [],
+     isLoading: true,
+     count: 20,
+     start: 0
    };
-   this.getMoviesFromMongo = this.getMoviesFromMongo.bind(this);
    this.getGenereFromMongo = this.getGenereFromMongo.bind(this);
+   this.fetchNextMovies = this.fetchNextMovies.bind(this);
   }
-  async getMoviesFromMongo()  {
-      await axios(
-      'http://localhost:4000/api/movies/')
+   getMoviesFromMongo()  {
+       const { count, start } = this.state;
+       axios(
+           `http://localhost:4000/api/movies/count=${count}&start=${start}`)
       .then(response => {
-        this.setState({ movies: response.data })
+        this.setState({ movies: response.data, isLoading: false })
     })
   };
+
+    fetchNextMovies() {
+        const { count, start } = this.state;
+        let newStart = this.state.start + this.state.count;
+        this.setState({start: newStart })
+         axios(`http://localhost:4000/api/movies/count=${count}&start=${newStart}`)
+            .then((response) => {
+                this.setState({ movies: this.state.movies.concat(response.data) })
+            })
+    }
 
     async getGenereFromMongo()  {
         const result = await axios(
@@ -45,11 +59,12 @@ class MovieBrowser extends React.Component {
    
     return (
       <div>
-        <Grid className="movies-grid">
-          <Row>
-             <MovieList movies={this.state.movies} />
-          </Row>
-        </Grid>
+          <InfiniteScroll className="infinite-scroll"
+              dataLength={this.state.movies.length}
+              next={this.fetchNextMovies}
+              hasMore={true}>
+                    <MovieList movies={this.state.movies} isLoading={this.state.isLoading} />
+        </InfiniteScroll>
       </div>
     );
   }
