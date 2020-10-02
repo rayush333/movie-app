@@ -56,7 +56,7 @@ class MovieBrowser extends React.Component {
         await axios(
             'http://localhost:4000/api/movies/'+genre)
             .then(response => {
-                this.setState({ movies: response.data })
+                this.setState({ movies: response.data, isLoading: false })
             })
     };
 
@@ -68,12 +68,10 @@ class MovieBrowser extends React.Component {
               dataLength={this.state.movies.length}
               next={this.fetchNextMovies}
               hasMore={true}>
-                {this.state.movies.length > 0 &&
-                    <MovieList movies={this.state.movies} isLoading={this.state.isLoading} />
-                }
-                {this.state.movies.length == 0 &&
+                 {this.state.movies.length == 0 && !this.state.isLoading &&
                     <div className="noresult">No Results Found</div>
-                }
+                 }
+                 <MovieList movies={this.state.movies} isLoading={this.state.isLoading} />
         </InfiniteScroll>
       </div>
     );

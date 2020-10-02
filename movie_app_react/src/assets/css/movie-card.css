@@ -1,6 +1,6 @@
 .movies-grid {
     padding: 5rem;
-    margin-left: 25rem;
+    margin-left: 0 !important;;
 }
 
 .movies-row {
