@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 import AdminNavbarLinks from "../Navbars/AdminNavbarLinks.jsx";
 
-import logo from "assets/img/reactlogo.png";
+import logo from "assets/img/movielogo.png";
 
 class UserSidebar extends Component {
   constructor(props) {
@@ -41,7 +41,6 @@ class UserSidebar extends Component {
           )}
         <div className="logo">
           <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-mini"
           >
             <div className="logo-img">
@@ -49,7 +48,6 @@ class UserSidebar extends Component {
             </div>
           </a>
           <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-normal"
           >
             WildCards Movies

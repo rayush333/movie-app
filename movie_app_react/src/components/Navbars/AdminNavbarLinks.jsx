@@ -12,7 +12,7 @@ class AdminNavbarLinks extends Component {
 
   logout(){
 console.log("logout");
-this.props.history.push('/login');
+this.props.history.push('/');
 localStorage.clear();
 
   }
@@ -32,7 +32,7 @@ localStorage.clear();
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
-          <NavDropdown
+         {/* <NavDropdown
             eventKey={2}
             title={notification}
             noCaret
@@ -43,7 +43,7 @@ localStorage.clear();
             <MenuItem eventKey={2.3}>Notification 3</MenuItem>
             <MenuItem eventKey={2.4}>Notification 4</MenuItem>
             <MenuItem eventKey={2.5}>Another notifications</MenuItem>
-          </NavDropdown>
+          </NavDropdown>*/}
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>

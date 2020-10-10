@@ -7,7 +7,7 @@ class Footer extends Component {
       <footer className="footer">
         <Grid fluid>
           <nav className="pull-left">
-            <ul>
+           {/* <ul>
               <li>
                 <a href="#pablo">Home</a>
               </li>
@@ -20,11 +20,11 @@ class Footer extends Component {
               <li>
                 <a href="#pablo">Blog</a>
               </li>
-            </ul>
+            </ul>*/}
           </nav>
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}
-            <a href="/">Created By SK</a>
+            <a href="/">Created By WildCards</a>
           </p>
         </Grid>
       </footer>
