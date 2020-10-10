@@ -34,17 +34,17 @@ export class LoginForm extends Component {
 
 
   handleChange(e) {
-    console.log("check", e.target.value)
+   // console.log("check", e.target.value)
 
     const data = this.state.login;
     data[e.target.name] = e.target.value
     this.setState({ login: data });
-    console.log(this.state.login)
+    //console.log(this.state.login)
   }
 
   handleLogin(e) {
     const login = this.state.login;
-    axios.post(`http://localhost:4000/api/auth`, login)
+    axios.post('http://localhost:4000/api/auth', login)
       .then(res => {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('role', res.data.role);

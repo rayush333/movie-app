@@ -1,5 +1,5 @@
 .movies-grid {
-    padding: 5rem;
+    /*padding: 5rem;*/
     margin-left: 0 !important;;
 }
 
@@ -160,4 +160,9 @@
     margin-bottom: 1rem;
     font-family: "Chalkboard";
     -webkit-font-smoothing: antialiased;
+}
+.home-login {
+    margin: 10px 5px;
+    padding: 10px 15px;
+    text-align: right;
 }
