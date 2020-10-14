@@ -1,27 +1,99 @@
-import Dashboard from "views/Dashboard.jsx";
+import UserDashboard from "views/user/Dashboard.jsx";
+
+import Category from "views/admin/genre/Category.jsx";
+import CategoryList from "views/admin/genre/List.jsx";
+import AddCategory from "views/admin/genre/Add.jsx";
+
+import MovieCategory from "views/admin/movie/Category.jsx";
+import MovieCategoryList from "views/admin/movie/List.jsx";
+import MovieAddCategory from "views/admin/movie/Add.jsx";
+
+import Watchlist from "views/user/category/Watchlist.jsx";
+import Profile from "views/user/category/Profile.jsx"
 
 import UserProfile from "views/UserProfile.jsx";
-import UserDashboard from "views/user/Dashboard.jsx";
-import Watchlist from "views/user/category/Watchlist.jsx";
-import Profile from "views/user/category/Profile.jsx";
+import Movies from "views/Movies";
+import Users from "views/Users";
+import Genres from "views/Genres";
 
 const routes = {
   admin: {
     mainroutes: [
       {
-        path: "/dashboard",
-        name: "Manage Users",
-        icon: "pe-7s-graph",
-        component: Dashboard,
+        path: "/category/genre",
+        name: "Update Genre",
+        icon: "pe-7s-pen",
+        component: Category,
+        layout: "/admin"
+      },
+      {
+        path: "/category/movie",
+        name: "Update Movie",
+        icon: "pe-7s-edit",
+        component: MovieCategory,
+        layout: "/admin"
+      },
+      {
+        path: "/movies",
+        name: "Search Movie",
+        icon: "pe-7s-film",
+        component: Movies,
+        layout: "/admin"
+      },
+      ,
+      {
+        path: "/genres",
+        name: "Search Genre",
+        icon: "pe-7s-video",
+        component: Genres,
+        layout: "/admin"
+      },
+      {
+        path: "/users",
+        name: "Search User",
+        icon: "pe-7s-users",
+        component: Users,
         layout: "/admin"
       },
       {
         path: "/user",
-        name: "Manage Movies",
+        name: "User Profile",
         icon: "pe-7s-user",
         component: UserProfile,
         layout: "/admin"
-      }]
+      }],
+      childroutes: {
+        category: [
+          {
+            path: "/add",
+            name: "Dashboard",
+            icon: "pe-7s-graph",
+            component: AddCategory,
+            layout: "/admin/category/genre"
+          },
+          {
+            path: "/",
+            name: "Dashboard",
+            icon: "pe-7s-graph",
+            component: CategoryList,
+            layout: "/admin/category/genre"
+          },
+          {
+            path: "/add",
+            name: "Dashboard",
+            icon: "pe-7s-graph",
+            component: MovieAddCategory,
+            layout: "/admin/category/movie"
+          },
+          {
+            path: "/",
+            name: "Dashboard",
+            icon: "pe-7s-graph",
+            component: MovieCategoryList,
+            layout: "/admin/category/movie"
+          }
+          ]
+      }
   },
   user: {
     mainroutes: [{
