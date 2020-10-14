@@ -25,8 +25,7 @@ const data = this.state.item;
 data[e.target.name] = e.target.value
 this.setState({ item:data });
 console.log(this.state.item)
-
-  }
+}
 
   save(){
 const item = this.state.item ;
