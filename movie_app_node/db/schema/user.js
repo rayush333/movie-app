@@ -19,6 +19,10 @@ var userSchema = new mongoose.Schema({
     role : {
         type : String,
         required: true,
+    },
+    watchlist : {
+        type : [String],
+        required : false,
     }
 });
 

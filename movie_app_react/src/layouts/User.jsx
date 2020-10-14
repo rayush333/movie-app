@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import AdminNavbar from "components/Navbars/AdminNavbar";
+import UserNavbar from "components/Navbars/UserNavbar";
 import Footer from "components/Footer/Footer";
 import UserSidebar from "components/Sidebar/UserSidebar";
 import routes from "routes.js";
@@ -90,7 +90,7 @@ class User extends Component {
         color={this.state.color}
         hasImage={this.state.hasImage}/>
         <div id="main-panel" className="main-panel" ref="mainPanel">
-          <AdminNavbar
+          <UserNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />

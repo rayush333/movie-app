@@ -36,8 +36,8 @@ class MovieBrowser extends React.Component {
 
 
     componentDidMount() {
-        if(this.props.match.params.gener)
-            this.getMoviesFromGenre(this.props.match.params.gener);
+        if(this.props.match.params.genre)
+            this.getMoviesFromGenre(this.props.match.params.genre);
         else
             this.getMoviesFromMongo();
 
@@ -45,8 +45,8 @@ class MovieBrowser extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.match.params !== this.props.match.params) {
-            if(this.props.match.params.gener)
-                this.getMoviesFromGenre(this.props.match.params.gener);
+            if(this.props.match.params.genre)
+                this.getMoviesFromGenre(this.props.match.params.genre);
             else
                 this.getMoviesFromMongo();
         }

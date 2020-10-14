@@ -2,20 +2,18 @@
 import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 
-class AdminNavbarLinks extends Component {
+class UserNavbar extends Component {
   constructor(props) {
     super("123",props);
     console.log(props)
     this.logout = this.logout.bind(this)
     this.state = {name:localStorage.getItem('name')}
   }
-
-  logout(){
+logout(){
 console.log("logout");
 this.props.history.push('/');
 localStorage.clear();
-
-  }
+}
   render() {
     const notification = (
       <div>
@@ -32,7 +30,7 @@ localStorage.clear();
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
-         {/* <NavDropdown
+          <NavDropdown
             eventKey={2}
             title={notification}
             noCaret
@@ -43,7 +41,7 @@ localStorage.clear();
             <MenuItem eventKey={2.3}>Notification 3</MenuItem>
             <MenuItem eventKey={2.4}>Notification 4</MenuItem>
             <MenuItem eventKey={2.5}>Another notifications</MenuItem>
-          </NavDropdown>*/}
+          </NavDropdown>
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>
@@ -51,9 +49,8 @@ localStorage.clear();
         </Nav>
         <Nav pullRight>
           <NavItem eventKey={1}>
-            Welcome {this.state.name} 
+            Welcome {this.state.name}
           </NavItem>
-
           <NavItem eventKey={2} onClick={this.logout}>
             Log out
           </NavItem>
@@ -63,4 +60,4 @@ localStorage.clear();
   }
 }
 
-export default AdminNavbarLinks;
+export default UserNavbar;

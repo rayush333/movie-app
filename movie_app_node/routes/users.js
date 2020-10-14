@@ -3,15 +3,57 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const _ = require('lodash')
 const { User, validate }= require("../db/schema/user");
-const { unsubscribe } = require('./genres');
 
 
-router.get("/", exports.getGenres = (req,res)=>{
+router.get("/", exports.getUsers = (req,res)=>{
     User.find()
     .then((docs)=>{
         return res.status(200).json(docs);
     })
     .catch((error)=> res.status(500).json(error));
+})
+
+router.get('/:name', exports.getUsers = (req,res)=>{
+    User.find({name:req.params.name})
+    .then((userFound)=>{
+        return res.status(200).json(userFound);
+    })
+    .catch((error)=> res.status(500).json(error));
+})
+
+router.post('/watchlist', async (req,res)=>{
+console.log(req.body.name)
+console.log(req.body.movieId)
+
+User.find({"name": req.body.name})
+.then((userFound)=>{
+    console.log(userFound)
+    console.log(userFound[0].get('watchlist').length)
+    console.log(userFound[0].get('watchlist'))
+    if(userFound[0].get('watchlist') == "") {
+    console.log(userFound[0].get('watchlist'))
+    console.log(userFound[0].get('name'))
+    console.log("Inside $set")
+
+    User.updateOne(
+            { "name": req.body.name},
+            { $set: { "watchlist": [req.body.movieId]}})
+        .then((userFound)=>{
+            return res.status(200).json(userFound);
+        })
+        .catch((error)=> res.status(500).json(error));
+    }
+    else {
+    console.log("Inside $addToSet")
+        User.updateOne(
+            { "name": req.body.name},
+            { $addToSet: { "watchlist": [req.body.movieId]}})
+        .then((userFound)=>{
+            return res.status(200).json(userFound);
+        })
+    .catch((error)=> res.status(500).json(error));
+        }
+}).catch((error)=> res.status(500).json(error));
 })
 
 router.post("/", async (req,res)=>{

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Route, Switch ,Link, matchPath } from "react-router-dom";
+import HomeNavbar from "components/Navbars/HomeNavbar";
 import Footer from "components/Footer/Footer";
 import MovieBrowser from "modules/moviebrowser/MovieBrowserContainer";
 import routes from "routes.js";
 import image from "assets/img/sidebar-3.jpg";
-import logo from "assets/img/movielogo.png";
-import {Navbar} from "react-bootstrap";
+import logo from "assets/img/reactlogo.png";
 const axios = require('axios');
 
 class Home extends Component {
@@ -106,6 +106,7 @@ class Home extends Component {
           className="sidebar">
              <div className="logo">
           <a
+            href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-mini"
           >
             <div className="logo-img">
@@ -113,6 +114,7 @@ class Home extends Component {
             </div>
           </a>
           <a
+            href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-normal"
           >
             WildCards Movies
@@ -133,9 +135,10 @@ class Home extends Component {
         color={this.state.color}
         hasImage={this.state.hasImage}/> */}
         <div id="main-panel" className="main-panel" ref="mainPanel">
-          <Navbar fluid>
-             <p className="home-login"><a href="/login">Login</a></p>
-          </Navbar>
+          <HomeNavbar
+            {...this.props}
+            brandText={this.getBrandText(this.props.location.pathname)}
+          />
           <Switch>{this.getRoutes(routes)}</Switch>
           <MovieBrowser/>
           <Footer />

@@ -18,7 +18,7 @@ class App extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route path="/login" exact render={props => <LoginLayout {...props} />} />
-                    <Route path="/movie/:gener" exact render={props => <HomeLayout {...props} />}/>
+                    <Route path="/movie/:genre" exact render={props => <HomeLayout {...props} />}/>
                     <PrivateRoute path="/admin" role="ROLE_ADMIN" component={AdminLayout}></PrivateRoute>
                     <PrivateRoute path="/user" role="ROLE_USER" component={UserLayout}></PrivateRoute> 
                     <Route path="/" render={props => <HomeLayout {...props} />} />
