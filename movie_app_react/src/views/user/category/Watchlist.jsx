@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Route, Switch ,Link, matchPath } from "react-router-dom";
 import Footer from "components/Footer/Footer";
-import MovieBrowser from "modules/moviebrowser/MovieBrowserContainer";
+import WatchlistCard from "components/UserCard/WatchList";
 
 import routes from "routes.js";
 import image from "assets/img/sidebar-3.jpg";
 import logo from "assets/img/reactlogo.png";
 const axios = require('axios');
 
-class Dashboard extends Component {
+class Watchlist extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +37,7 @@ class Dashboard extends Component {
 
   getRoutes = routes => {
     return routes.admin.mainroutes.map((prop, key) => {
-      if (prop.layout === "/") {
+      if (prop.layout === "/admin") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -94,44 +94,48 @@ class Dashboard extends Component {
     }
   }
   render() {
-    return (
-      <div className="wrapper">
-        <div
-          id="sidebar"
-          className="sidebar">
-             <div className="logo">
-          <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
-            className="simple-text logo-mini"
-          >
-            <div className="logo-img">
-              <img src={logo} alt="logo_image" />
-            </div>
-          </a>
-          <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
-            className="simple-text logo-normal"
-          >
-            WildCards Movies
-          </a>
-        </div>
-          <div className="sidebar-wrapper">
-            <ul className="nav">
-                <li className={matchPath(this.props.location.pathname, { path: '/user/dashboard' }) ? 'active' : ''}>
-                    <Link to="/">Dashboard</Link>
-                </li >
-                {this.state.genres && this.state.genres.map((prop, key) => {
-                    return (  <li key={key} className={matchPath(this.props.location.pathname, { path: `/movie/${prop.genre}` }) ? 'active' : ''} > <Link  to={`/movie/${prop.genre}`} >{prop.genre}</Link></li>);
-                })}
-            </ul>
+      return (
+        <div className="wrapper">
+          <div
+            id="sidebar"
+            className="sidebar">
+               <div className="logo">
+            <a
+              href="https://www.creative-tim.com?ref=lbd-sidebar"
+              className="simple-text logo-mini"
+            >
+              <div className="logo-img">
+                <img src={logo} alt="logo_image" />
+              </div>
+            </a>
+            <a href="https://www.creative-tim.com?ref=lbd-sidebar" className="simple-text logo-normal">WildCards Movies</a>
           </div>
+            <div className="sidebar-wrapper">
+              <ul className="nav">
+                            <li className={matchPath(this.props.location.pathname, { path: '/user/dashboard' }) ? 'active' : ''}>
+                              <Link to="/user/dashboard">Dashboard</Link>
+                            </li >
+                            {this.state.genres && this.state.genres.map((prop, key) => {
+                            return (  <li key={key} className={matchPath(this.props.location.pathname, { path: `/movie/${prop.genre}` }) ? 'active' : ''} > <Link  to={`/movie/${prop.genre}`} >{prop.genre}</Link></li>);
+                            })}
+                            <li className={matchPath(this.props.location.pathname, { path: '/user/watchlist' }) ? 'active' : ''}>
+                              <Link to="/user/watchlist">Watchlist</Link>
+                            </li>
+                            <li className={matchPath(this.props.location.pathname, { path: '/user/profile' }) ? 'active' : ''}>
+                              <Link to="/user/profile">Profile</Link>
+                            </li>
+                          </ul>
+            </div>
+          </div>
+          {/* <Sidebar {...this.props} routes={routes} image={this.state.image}
+          color={this.state.color}
+          hasImage={this.state.hasImage}/> */}
+            <Switch>{this.getRoutes(routes)}</Switch>
+            <WatchlistCard/>
+            <Footer />
         </div>
-          <Switch>{this.getRoutes(routes)}</Switch>
-          <MovieBrowser/>
-          <Footer />
-      </div>
-    );
+      );
+    }
   }
-}
 
-export default Dashboard;
+  export default Watchlist;

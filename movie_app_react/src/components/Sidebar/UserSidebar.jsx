@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
-import AdminNavbarLinks from "../Navbars/AdminNavbarLinks.jsx";
+import HomeNavbarLinks from "../Navbars/HomeNavbarLinks.jsx";
 
 import logo from "assets/img/movielogo.png";
 
@@ -55,7 +55,7 @@ class UserSidebar extends Component {
         </div>
         <div className="sidebar-wrapper">
           <ul className="nav">
-            {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
+            {this.state.width <= 991 ? <HomeNavbarLinks /> : null}
             {this.props.routes.user.mainroutes.map((prop, key) => {
               if (!prop.redirect)
                 return (

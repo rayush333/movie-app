@@ -12,6 +12,15 @@ router.get("/count=:count&start=:start", (req,res)=>{
     .catch((error)=> res.status(500).json(error));
 })
 
+router.get("/watchlist/:watchlist", (req,res)=>{
+let watchlist = req.params.watchlist.split(',')
+Movie.find({_id : {$in : watchlist}})
+    .then((moviesFound)=>{
+        return res.status(200).json(moviesFound);
+    })
+    .catch((error)=> res.status(500).json(error));
+})
+
 router.get("/", (req,res)=>{
     Movie.find()
         .then((docs)=>{
@@ -40,7 +49,7 @@ router.post("/add", (req,res)=>{
     movieSchema.save((err, doc)=>{
         if(!err) {
             console.log(doc);
-            res.status(201).json({ message: "Movie added successfuly" })
+            res.status(201).json({ message: "Movie added successfully" })
         } else {
             res.status(500).json({ message: "Error adding Movie"})
         }

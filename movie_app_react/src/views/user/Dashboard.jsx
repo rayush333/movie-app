@@ -1,64 +1,140 @@
-
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Route, Switch ,Link, matchPath } from "react-router-dom";
+import Footer from "components/Footer/Footer";
+import MovieBrowser from "modules/moviebrowser/MovieBrowserContainer";
 
-import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-
+import routes from "routes.js";
+import image from "assets/img/sidebar-3.jpg";
+import logo from "assets/img/reactlogo.png";
+const axios = require('axios');
 
 class Dashboard extends Component {
-  createLegend(json) {
-    var legend = [];
-    for (var i = 0; i < json["names"].length; i++) {
-      var type = "fa fa-circle text-" + json["types"][i];
-      legend.push(<i className={type} key={i} />);
-      legend.push(" ");
-      legend.push(json["names"][i]);
+  constructor(props) {
+    super(props);
+    this.state = {
+      _notificationSystem: null,
+      image: image,
+      color: "black",
+      hasImage: false,
+      fixedClasses: "dropdown show-dropdown open"
+    };
+    console.log("props",this.props)
+    this.getGenereFromMongo = this.getGenereFromMongo.bind(this);
+  }
+
+
+  async getGenereFromMongo() {
+    const result = await axios(
+      'http://localhost:4000/api/genres')
+      .then(response => {
+        this.setState({ genres: response.data });
+        console.log(this.state.genres);
+      })
+  };
+  componentDidMount(){
+    this.getGenereFromMongo();
+  }
+
+  getRoutes = routes => {
+    return routes.admin.mainroutes.map((prop, key) => {
+      if (prop.layout === "/user") {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            render={props => (
+              <prop.component
+                {...props}
+                handleClick={this.handleNotificationClick}
+              />
+            )}
+            key={key}
+          />
+        );
+      } else {
+        return null;
+      }
+    });
+  };
+  getBrandText = path => {
+    for (let i = 0; i < routes.length; i++) {
+      if (
+        this.props.location.pathname.indexOf(
+          routes[i].layout + routes[i].path
+        ) !== -1
+      ) {
+        return routes[i].name;
+      }
     }
-    return legend;
+    return "Brand";
+  };
+  handleImageClick = image => {
+    this.setState({ image: image });
+  };
+  handleColorClick = color => {
+    this.setState({ color: color });
+  };
+  handleHasImage = hasImage => {
+    this.setState({ hasImage: hasImage });
+  };
+  handleFixedClick = () => {
+    if (this.state.fixedClasses === "dropdown") {
+      this.setState({ fixedClasses: "dropdown show-dropdown open" });
+    } else {
+      this.setState({ fixedClasses: "dropdown" });
+    }
+  };
+
+  componentDidUpdate(e) {
+    if (
+      window.innerWidth < 993 &&
+      e.history.location.pathname !== e.location.pathname &&
+      document.documentElement.className.indexOf("nav-open") !== -1
+    ) {
+      document.documentElement.classList.toggle("nav-open");
+    }
   }
   render() {
     return (
-      <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Capacity"
-                statsValue="105GB"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Revenue"
-                statsValue="$1,345"
-                statsIcon={<i className="fa fa-calendar-o" />}
-                statsIconText="Last day"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Errors"
-                statsValue="23"
-                statsIcon={<i className="fa fa-clock-o" />}
-                statsIconText="In the last hour"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="fa fa-twitter text-info" />}
-                statsText="Followers"
-                statsValue="+45"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-          </Row>
-        </Grid>
+      <div className="wrapper">
+        <div
+          id="sidebar"
+          className="sidebar">
+             <div className="logo">
+          <a
+            href="https://www.creative-tim.com?ref=lbd-sidebar"
+            className="simple-text logo-mini"
+          >
+            <div className="logo-img">
+              <img src={logo} alt="logo_image" />
+            </div>
+          </a>
+          <a
+            href="https://www.creative-tim.com?ref=lbd-sidebar"
+            className="simple-text logo-normal"
+          >
+            WildCards Movies
+          </a>
+        </div>
+          <div className="sidebar-wrapper">
+            <ul className="nav">
+                <li className={matchPath(this.props.location.pathname, { path: '/user/dashboard' }) ? 'active' : ''}>
+                    <Link to="/">Dashboard</Link>
+                </li >
+                {this.state.genres && this.state.genres.map((prop, key) => {
+                    return (  <li key={key} className={matchPath(this.props.location.pathname, { path: `/movie/${prop.genre}` }) ? 'active' : ''} > <Link  to={`/movie/${prop.genre}`} >{prop.genre}</Link></li>);
+                })}
+                <li className={matchPath(this.props.location.pathname, { path: '/user/watchlist' }) ? 'active' : ''}>
+                    <Link to="/user/watchlist">Watchlist</Link>
+               </li>
+               <li className={matchPath(this.props.location.pathname, { path: '/user/profile' }) ? 'active' : ''}>
+                    <Link to="/user/profile">Profile</Link>
+                </li>
+            </ul>
+          </div>
+        </div>
+          <Switch>{this.getRoutes(routes)}</Switch>
+          <MovieBrowser/>
+          <Footer />
       </div>
     );
   }
