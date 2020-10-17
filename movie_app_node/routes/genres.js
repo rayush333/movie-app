@@ -24,4 +24,15 @@ router.post("/add", (req,res)=>{
         }
     })
 })
+
+router.delete('/:id', async (req) => {
+      Genre.findOneAndDelete({_id : req.params.id}, function (err, docs) { 
+        if (err){ 
+            console.log(err) 
+        } 
+        else{ 
+            console.log("Deleted Genre : ", docs); 
+        } 
+    });
+   })
 module.exports = router;

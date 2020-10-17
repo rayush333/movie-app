@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import {
   Grid,
@@ -27,7 +10,7 @@ import {
 
 import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
-import { UserCard } from "components/UserCard/UserCard.jsx";
+import { ProfileCard } from "views/admin/user/ProfileCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
 import avatar from "assets/img/faces/face-3.jpg";
@@ -44,28 +27,21 @@ class UserProfile extends Component {
                 content={
                   <form>
                     <FormInputs
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-5", "col-md-5"]}
                       properties={[
-                        {
-                          label: "Company (disabled)",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Company",
-                          defaultValue: "Creative Code Inc.",
-                          disabled: true
-                        },
                         {
                           label: "Username",
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Username",
-                          defaultValue: "michael23"
+                          defaultValue: "Admin"
                         },
                         {
                           label: "Email address",
                           type: "email",
                           bsClass: "form-control",
-                          placeholder: "Email"
+                          placeholder: "Email",
+                          defaultValue: "admin123@gmail.com"
                         }
                       ]}
                     />
@@ -73,60 +49,20 @@ class UserProfile extends Component {
                       ncols={["col-md-6", "col-md-6"]}
                       properties={[
                         {
-                          label: "First name",
+                          label: "Password",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "First name",
-                          defaultValue: "Mike"
+                          placeholder: "Password"
                         },
                         {
-                          label: "Last name",
+                          label: "Role",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Last name",
-                          defaultValue: "Andrew"
+                          placeholder: "Role",
+                          defaultValue: "ROLE_ADMIN"
                         }
                       ]}
                     />
-                    <FormInputs
-                      ncols={["col-md-12"]}
-                      properties={[
-                        {
-                          label: "Adress",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Home Adress",
-                          defaultValue:
-                            "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                        }
-                      ]}
-                    />
-                    <FormInputs
-                      ncols={["col-md-4", "col-md-4", "col-md-4"]}
-                      properties={[
-                        {
-                          label: "City",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "City",
-                          defaultValue: "Mike"
-                        },
-                        {
-                          label: "Country",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Country",
-                          defaultValue: "Andrew"
-                        },
-                        {
-                          label: "Postal Code",
-                          type: "number",
-                          bsClass: "form-control",
-                          placeholder: "ZIP Code"
-                        }
-                      ]}
-                    />
-
                     <Row>
                       <Col md={12}>
                         <FormGroup controlId="formControlsTextarea">
@@ -136,7 +72,7 @@ class UserProfile extends Component {
                             componentClass="textarea"
                             bsClass="form-control"
                             placeholder="Here can be your description"
-                            defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
+                            defaultValue=""
                           />
                         </FormGroup>
                       </Col>
@@ -150,18 +86,16 @@ class UserProfile extends Component {
               />
             </Col>
             <Col md={4}>
-              <UserCard
+              <ProfileCard
                 bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
                 avatar={avatar}
-                name="Mike Andrew"
-                userName="michael24"
+                name="Admin"
+                userName="admin123@gmail.com"
                 description={
                   <span>
-                    "Lamborghini Mercy
                     <br />
-                    Your chick she so thirsty
+                    Hello Admin
                     <br />
-                    I'm in that two seat Lambo"
                   </span>
                 }
                 socials={

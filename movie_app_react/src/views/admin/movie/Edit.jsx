@@ -4,47 +4,53 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import axios from 'axios';
 
-class AddCategory extends Component {
+
+class EditCategory extends Component {
 
   constructor(props) {
     super(props);
     console.log(this.props)
-    this.state = {
-      item: {
-        name: "",
-        brandName: "",
-        price: '',
-        tags: ["handwash"]
-      }
-    }
+    this.state = { item: {} };
     this.save = this.save.bind(this);
     this.handleChange = this.handleChange.bind(this)
-
-
-
   }
+
+  componentDidMount() {
+    axios.get("http://localhost:3010/api/items/" + this.props.match.params.id)
+      .then(res => {
+        const item = res.data;
+        this.setState({ item });
+        console.log(this.state)
+      })
+  }
+
 
   handleChange(e) {
-console.log("check",e.target.value)
+    console.log("check", e.target.value)
 
-const data = this.state.item;
-data[e.target.name] = e.target.value
-this.setState({ item:data });
-console.log(this.state.item)
+    const data = this.state.item;
+    data[e.target.name] = e.target.value
+    this.setState({ item: data });
+    console.log(this.state.item)
 
   }
 
-  save(){
-const item = this.state.item ;
-console.log(item);
-    axios.post(`http://localhost:3010/api/items`, item)
+  save() {
+    const item = this.state.item;
+    const updateDate = {
+      "name": item.name,
+      "brandName": item.brandName,
+      "price": item.price,
+      "tags": item.tags
+    }
+    axios.put(`http://localhost:3010/api/items/` + this.props.match.params.id, updateDate)
       .then(res => {
         console.log(res.data);
         this.props.history.push('/user/category')
       })
       .catch(error => {
         console.log(error.response.data)
-    });
+      });
   }
 
   render() {
@@ -53,7 +59,7 @@ console.log(item);
         <Grid fluid>
           <Row>
             <Col>
-              <h4>Add New Item</h4>
+              <h4>Edit  Item</h4>
               <form >
                 <FormInputs
                   ncols={["col-md-6", "col-md-6"]}
@@ -62,19 +68,19 @@ console.log(item);
                       label: "Item Name",
                       type: "text",
                       name: "name",
-                      onChange:this.handleChange,
+                      onChange: this.handleChange,
                       bsClass: "form-control ",
                       placeholder: "Item Category",
-                      defaultValue: "",
+                      defaultValue: this.state.item.name,
                     },
                     {
                       label: "Brand Name",
                       type: "text",
                       name: "brandName",
-                      onChange:this.handleChange,
+                      onChange: this.handleChange,
                       bsClass: "form-control ",
                       placeholder: "Brand Name",
-                      defaultValue: ""
+                      defaultValue: this.state.item.brandName
                     }
                   ]}
                 />
@@ -85,10 +91,10 @@ console.log(item);
                       label: "Price",
                       type: "text",
                       name: "price",
-                      onChange:this.handleChange,
+                      onChange: this.handleChange,
                       bsClass: "form-control ",
                       placeholder: "Price",
-                      defaultValue: ""
+                      defaultValue: this.state.item.price
                     }
                   ]}
                 />
@@ -103,4 +109,4 @@ console.log(item);
   }
 }
 
-export default AddCategory;
+export default EditCategory;
