@@ -129,6 +129,12 @@
     text-align: left;
 }
 
+.add-to-watchlist:hover {
+    background: #f06249;
+    color: #fff;
+    text-decoration: none;
+}
+
 .duration-genre {
     text-align: left;
     font-weight: 400;

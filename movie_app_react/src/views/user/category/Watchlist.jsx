@@ -5,7 +5,7 @@ import WatchlistCard from "components/UserCard/WatchList";
 
 import routes from "routes.js";
 import image from "assets/img/sidebar-3.jpg";
-import logo from "assets/img/reactlogo.png";
+import logo from "assets/img/movielogo.png";
 const axios = require('axios');
 
 class Watchlist extends Component {
@@ -101,14 +101,13 @@ class Watchlist extends Component {
             className="sidebar">
                <div className="logo">
             <a
-              href="https://www.creative-tim.com?ref=lbd-sidebar"
               className="simple-text logo-mini"
             >
               <div className="logo-img">
                 <img src={logo} alt="logo_image" />
               </div>
             </a>
-            <a href="https://www.creative-tim.com?ref=lbd-sidebar" className="simple-text logo-normal">WildCards Movies</a>
+            <a className="simple-text logo-normal">WildCards Movies</a>
           </div>
             <div className="sidebar-wrapper">
               <ul className="nav">
