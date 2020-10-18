@@ -5,7 +5,7 @@ import Footer from "components/Footer/Footer";
 import MovieBrowser from "modules/moviebrowser/MovieBrowserContainer";
 import routes from "routes.js";
 import image from "assets/img/sidebar-3.jpg";
-import logo from "assets/img/reactlogo.png";
+import logo from "assets/img/movielogo.png";
 const axios = require('axios');
 
 class Home extends Component {
@@ -106,7 +106,6 @@ class Home extends Component {
           className="sidebar">
              <div className="logo">
           <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-mini"
           >
             <div className="logo-img">
@@ -114,7 +113,6 @@ class Home extends Component {
             </div>
           </a>
           <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-normal"
           >
             WildCards Movies
