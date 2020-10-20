@@ -25,20 +25,14 @@ class CategoryList extends Component {
   }
   edit(id) {
     console.log("ssss", id);
-    this.props.history.push('/admin/category/edit/' + id);
+    this.props.history.push('/admin/category/movie/edit/' + id);
   }
 
   delete(id) {
-    console.log("Movie Deleted", id);
-    axios.delete("http://localhost:4000/api/movies/" + id)
-      .then(res => {
-        console.log(res.data);
-        if (res.data.n === 1) {
-            this.list();
-        }
-      })
+    console.log(this.props);
+    this.props.history.push('/admin/category/movie/delete/' +id)
   }
-sssss
+
   componentDidMount() {
     this.list();
   }

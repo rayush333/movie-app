@@ -8,13 +8,18 @@ class EditCategory extends Component {
   constructor(props) {
     super(props);
     console.log(this.props)
-    this.state = { item: {} };
+    this.state = {
+      item: {
+        genre: "",
+        tags: ["handwash"]
+      }
+    }
     this.save = this.save.bind(this);
     this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
-    axios.get("http://localhost:3010/api/items/" + this.props.match.params.id)
+    axios.get("http://localhost:4000/api/genres/" + this.props.match.params.id)
       .then(res => {
         const item = res.data;
         this.setState({ item });
@@ -25,7 +30,6 @@ class EditCategory extends Component {
 
   handleChange(e) {
     console.log("check", e.target.value)
-
     const data = this.state.item;
     data[e.target.name] = e.target.value
     this.setState({ item: data });
@@ -35,13 +39,10 @@ class EditCategory extends Component {
 
   save() {
     const item = this.state.item;
-    const updateDate = {
-      "genre": item.genre
-    }
-    axios.put(`http://localhost:3010/api/items/` + this.props.match.params.id, updateDate)
+    axios.put(`http://localhost:4000/api/genres/` + this.props.match.params.id + "/" + item.genre)
       .then(res => {
         console.log(res.data);
-        this.props.history.push('/user/category')
+        this.props.history.push('/admin/category/genre')
       })
       .catch(error => {
         console.log(error.response.data)
@@ -66,7 +67,7 @@ class EditCategory extends Component {
                       onChange: this.handleChange,
                       bsClass: "form-control ",
                       placeholder: "Enter genre",
-                      defaultValue: this.state.item.name,
+                      defaultValue: this.state.item.genre,
                     }
                   ]}
                 />

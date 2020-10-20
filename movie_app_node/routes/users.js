@@ -79,6 +79,14 @@ router.post("/", async (req,res)=>{
     }
 })
 
+router.get("/:id", (req,res)=>{
+    User.find({_id:req.params.id})
+        .then((docs)=>{
+            return res.status(200).json(docs);
+        })
+        .catch((error)=> res.status(500).json(error));
+})
+
 router.delete('/:id', async (req) => {
     User.findOneAndDelete({_id : req.params.id}, function (err, docs) { 
       if (err){ 
@@ -89,4 +97,21 @@ router.delete('/:id', async (req) => {
       } 
   });
  })
+
+router.put('/:id/:name/:email/:password/:role/:watchlist', function(req, res){
+    var setField = {
+       name: req.params.name,
+       email: req.params.email,
+       password: req.params.password,
+       role: req.params.role,
+       watchlist: req.params.watchlist
+    }
+    User.findOneAndUpdate({"_id":req.params.id}, setField, {upsert:true}, function(err, results){
+       if(err){console.log(err)}
+       else{
+           console.log(setField);
+           res.json(results)
+       }
+    })
+})
 module.exports = router;

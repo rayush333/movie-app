@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const router = express.Router();
 const Movie = mongoose.model("Movie")
 
-
 router.get("/count=:count&start=:start", (req,res)=>{
     Movie.find().limit(Number(req.params.count)).skip(Number(req.params.start))
     .then((docs)=>{
@@ -66,4 +65,31 @@ router.delete('/:id', async (req) => {
       } 
   });
  })
+
+router.get("/:id", (req,res)=>{
+    Movie.findById({_id: mongoose.Types.ObjectId(req.params.id)})
+        .then((docs)=>{
+            return res.status(200).json(docs);
+        })
+        .catch((error)=> res.status(500).json(error));
+})
+
+router.put('/:id', function(req, res){
+    var setField = {
+        movieTitle: req.body.movieTitle,
+        movieGenre: req.body.movieGenre,
+        movieDuration: req.body.movieDuration,
+        movieRating: req.body.movieRating,
+        movieDescription: req.body.movieDescription,
+        movieImage: req.body.movieImage,
+        movieTrailerUrl: req.body.movieTrailerUrl
+    }
+    Movie.findOneAndUpdate({"_id":req.params.id}, setField, {upsert:true}, function(err, results){
+       if(err){console.log(err)}
+       else{
+           console.log(setField);
+           res.json(results)
+       }
+    })
+})
 module.exports = router;

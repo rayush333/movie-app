@@ -25,14 +25,36 @@ router.post("/add", (req,res)=>{
     })
 })
 
-router.delete('/:id', async (req) => {
+router.delete('/:id', async (req,res) => {
       Genre.findOneAndDelete({_id : req.params.id}, function (err, docs) { 
         if (err){ 
             console.log(err) 
         } 
         else{ 
-            console.log("Deleted Genre : ", docs); 
-        } 
+            console.log("Deleted Genre : ", docs);
+            res.json(docs) 
+        }
     });
-   })
+})
+
+router.get('/:id', function(req, res){
+    Genre.findById(req.params.id, function(err, data){
+        if(err){console.log(err)}
+        else{res.json(data)};
+    });
+});
+
+router.put('/:id/:genre', function(req, res){
+    var setField = {
+       genre: req.params.genre
+    }
+    Genre.findOneAndUpdate({"_id":req.params.id}, setField, {upsert:true}, function(err, results){
+       if(err){console.log(err)}
+       else{
+           console.log(setField);
+           res.json(results)
+       }
+    })
+})
+
 module.exports = router;

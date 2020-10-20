@@ -29,14 +29,10 @@ class CategoryList extends Component {
   }
 
   delete(id) {
-    console.log("deleting genre", id);
-    axios.delete("http://localhost:4000/api/genres/"+ id)
-      .then(res => {
-        if (console.log(res.data)) {
-          this.props.history.push('/admin/category/genre');
-        }
-      })
+    console.log(this.props);
+    this.props.history.push('/admin/category/genre/delete/' +id)
   }
+
 
   componentDidMount() {
     this.list();

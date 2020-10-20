@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import CategoryList from "views/admin/genre/List.jsx";
 import AddCategory from "views/admin/genre/Add.jsx";
 import EditCategory from "views/admin/genre/Edit.jsx";
-
+import DeleteCategory from "views/admin/genre/Delete.jsx"
 
 class Category extends Component {
   render() {
@@ -22,6 +22,7 @@ class Category extends Component {
                       <Route path="/admin/category/genre/add" render={props => <AddCategory {...props} />} />
                       <Route path="/admin/category/genre/edit/:id" render={props => <EditCategory {...props} />} />
                       <Route path="/admin/category/genre" render={props => <CategoryList {...props} />} exact={true} />
+                      <Route path="/admin/category/genre/delete/:id" render={props => <DeleteCategory {...props} />} />
                     </Row>
                   </div>
                 }
