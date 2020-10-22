@@ -3,7 +3,7 @@ import { LoginForm } from "views/login/LoginForm";
 import LoginNavbar from "components/Navbars/LoginNavbar";
 
 import Button from "components/CustomButton/CustomButton.jsx";
-import avatar from "assets/img/faces/face-3.jpg";
+import avatar from "assets/img/wildCards.png";
 
 
 class Login extends Component {
