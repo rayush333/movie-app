@@ -18,8 +18,10 @@ export class LoginForm extends Component {
     super(props);
 
     this.handleLogin = this.handleLogin.bind(this)
-    this.state = { login: { email: null, password: null } }
+    this.state = { login: { email: null, password: null },message:null }
     this.handleChange = this.handleChange.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+
 
   }
 
@@ -44,12 +46,12 @@ export class LoginForm extends Component {
 
   handleLogin(e) {
     const login = this.state.login;
+
     axios.post('http://localhost:4000/api/auth', login)
       .then(res => {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('role', res.data.role);
         localStorage.setItem('name', res.data.name);
-
         Auth.authenticate();
         if (res.data.role == "ROLE_ADMIN") {
           this.props.history.push('/admin/dashboard')
@@ -58,8 +60,10 @@ export class LoginForm extends Component {
         }
       })
       .catch(error => {
-        Auth.authenticate(false);
-        console.log(error.response.data)
+        this.setState({ message:"Invalid Username or Password" });
+        Auth.authenticate();
+        console.log(error.response.data.msg)
+
       });
 
 
@@ -83,6 +87,8 @@ export class LoginForm extends Component {
                     title="Log In"
                     content={
                       <div>
+                        <span style={{color: "red"}}>{this.state.message}</span>
+
                         <form >
                           <FormInputs
                             ncols={["col-md-12"]}
