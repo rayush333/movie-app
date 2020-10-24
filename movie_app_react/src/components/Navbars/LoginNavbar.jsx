@@ -31,7 +31,7 @@ class Header extends Component {
       <Navbar fluid>
         <Navbar.Header>
           <Navbar.Brand>
-            WildCards Movies
+            <a className="wildcard-movies" href="/">WildCards Movies</a>
           </Navbar.Brand>
         </Navbar.Header>
       </Navbar>

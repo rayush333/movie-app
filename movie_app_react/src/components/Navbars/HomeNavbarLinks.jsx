@@ -6,12 +6,19 @@ class HomeNavbarLinks extends Component {
   constructor(props) {
     super("123",props);
     console.log(props)
-    this.logout = this.logout.bind(this)
+    this.login = this.login.bind(this)
+    this.register = this.register.bind(this)
   }
-  logout(){
-  console.log("logout");
+  login(){
+  console.log("login");
   this.props.history.push('/login');
   localStorage.clear();
+  }
+
+  register(){
+    console.log("register");
+    this.props.history.push('/register');
+    localStorage.clear();
   }
   render() {
     const notification = (
@@ -51,8 +58,12 @@ class HomeNavbarLinks extends Component {
             Welcome
           </NavItem>
 
-          <NavItem eventKey={2} onClick={this.logout}>
+          <NavItem onClick={this.login}>
             Log In
+          </NavItem>
+
+          <NavItem onClick={this.register} >
+            Sign Up
           </NavItem>
         </Nav>
       </div>

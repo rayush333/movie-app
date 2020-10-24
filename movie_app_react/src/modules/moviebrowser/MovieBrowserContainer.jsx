@@ -68,7 +68,7 @@ class MovieBrowser extends React.Component {
               dataLength={this.state.movies.length}
               next={this.fetchNextMovies}
               hasMore={true}>
-                 {this.state.movies.length == 0 && !this.state.isLoading &&
+                 {this.state.movies.length === 0 && !this.state.isLoading &&
                     <div className="noresult">No Results Found</div>
                  }
                  <MovieList movies={this.state.movies} isLoading={this.state.isLoading} />

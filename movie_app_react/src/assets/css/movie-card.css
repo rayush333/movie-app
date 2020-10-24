@@ -1,6 +1,6 @@
 .movies-grid {
     /*padding: 5rem;*/
-    margin-left: 0 !important;;
+    margin-left: 0 !important;
 }
 
 .movies-row {
@@ -108,6 +108,10 @@
 .movie-trailer:hover {
     background: #f06249;
     color: #fff;
+    text-decoration: none;
+}
+.wildcard-movies:hover {
+    color: #1DC7EA  !important;
     text-decoration: none;
 }
 
