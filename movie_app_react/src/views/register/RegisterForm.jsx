@@ -71,6 +71,7 @@ export class RegisterForm extends Component {
   }
 
   handleRegister(e) {
+    this.setState({ message:''});
     const register = this.state.register;
     if(null != this.state.register.name && null != this.state.register.email && null!= this.state.register.password && this.state.confirmPassword) {
       axios.post(`http://localhost:4000/api/users/`, register)
