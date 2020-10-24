@@ -2,7 +2,6 @@ import React from 'react';
 import {Row, Col, Grid} from 'react-bootstrap';
 import MovieCard from '../moviecard/MovieCard';
 import Loader from "../../../components/Loader/LoaderComponent";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 const styles = {
   movieColumn: {

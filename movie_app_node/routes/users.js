@@ -57,13 +57,12 @@ User.find({"name": req.body.name})
 })
 
 router.post("/", async (req,res)=>{
-
     const { error } = validate(req.body);
     if (error) { return res.status(400).send(error); }
     let user = await User.findOne({email:req.body.email});
     console.log("user:-",user);
     if(user) {
-        return res.status(400).json({msg:"User already exist"});
+        return res.status(400).json({msg:"User already exists!"});
     }
     user = new User(_.pick(req.body,["name","email","password","role"]));
     try {
