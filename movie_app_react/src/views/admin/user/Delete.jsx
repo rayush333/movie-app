@@ -10,11 +10,11 @@ class DeleteCategory extends Component {
     this.save = this.save.bind(this);
   }
 save(){
-    axios.delete("http://localhost:4000/api/genres/" + this.props.match.params.id)
-    .then(res => {
-      console.log(res.data);
-      this.props.history.push('/admin/category/genre')
-    })
+    axios.delete("http://localhost:4000/api/users/" + this.props.match.params.id)
+      .then(res => {
+        console.log(res.data);
+        this.props.history.push('/admin/category/user')
+      })
       .catch(error => {
         console.log(error.response.data)
     });
@@ -26,7 +26,7 @@ save(){
         <Grid fluid>
           <Row>
             <Col>
-              <h4>Delete Genre</h4>
+              <h4>Delete User</h4>
               <form >
                 <Button bsStyle="info" onClick={this.save}>Delete</Button>
                 <div className="clearfix" />

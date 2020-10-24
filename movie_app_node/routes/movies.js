@@ -55,24 +55,24 @@ router.post("/add", (req,res)=>{
     })
 })
 
-router.delete('/:id', async (req) => {
+router.delete('/:id', async (req,res) => {
     Movie.findOneAndDelete({_id : req.params.id}, function (err, docs) { 
       if (err){ 
           console.log(err) 
       } 
       else{ 
-          console.log("Deleted Movie : ", docs); 
+          console.log("Deleted Movie : ", docs);
+          res.json(docs)
       } 
   });
  })
 
-router.get("/:id", (req,res)=>{
-    Movie.findById({_id: mongoose.Types.ObjectId(req.params.id)})
-        .then((docs)=>{
-            return res.status(200).json(docs);
-        })
-        .catch((error)=> res.status(500).json(error));
-})
+router.get('/search/:id', function(req, res){
+    Movie.findOne({"_id":req.params.id}, function(err, data){
+        if(err){console.log(err)}
+        else{res.json(data)};
+    });
+});
 
 router.put('/:id', function(req, res){
     var setField = {

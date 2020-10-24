@@ -11,7 +11,10 @@ class DeleteCategory extends Component {
   }
 save(){
     axios.delete("http://localhost:4000/api/movies/" + this.props.match.params.id)
-      .then(alert('Movie Deleted'))
+    .then(res => {
+      console.log(res.data);
+      this.props.history.push('/admin/category/movie')
+    })
       .catch(error => {
         console.log(error.response.data)
     });

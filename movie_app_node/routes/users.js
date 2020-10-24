@@ -78,33 +78,33 @@ router.post("/", async (req,res)=>{
     }
 })
 
-router.get("/:id", (req,res)=>{
-    User.find({_id:req.params.id})
-        .then((docs)=>{
-            return res.status(200).json(docs);
-        })
-        .catch((error)=> res.status(500).json(error));
-})
+router.get('/search/:id', function(req, res){
+    User.findOne({"_id":req.params.id}, function(err, data){
+        if(err){console.log(err)}
+        else{res.json(data)};
+    });
+});
 
-router.delete('/:id', async (req) => {
+router.delete('/:id', async (req,res) => {
     User.findOneAndDelete({_id : req.params.id}, function (err, docs) { 
       if (err){ 
           console.log(err) 
       } 
       else{ 
           console.log("Deleted User : ", docs); 
+          res.json(docs)
       } 
   });
  })
 
-router.put('/:id/:name/:email/:password/:role/:watchlist', function(req, res){
+router.put('/:id', function(req, res){
     var setField = {
-       name: req.params.name,
-       email: req.params.email,
-       password: req.params.password,
-       role: req.params.role,
-       watchlist: req.params.watchlist
-    }
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role,
+        watchlist: req.body.watchlist
+     }
     User.findOneAndUpdate({"_id":req.params.id}, setField, {upsert:true}, function(err, results){
        if(err){console.log(err)}
        else{

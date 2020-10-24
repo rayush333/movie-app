@@ -15,7 +15,7 @@ class Category extends Component {
           <Row>
             <Col>
               <Card
-                title="Category"
+                title=""
                 content={
                   <div>
                     <Row>                    
