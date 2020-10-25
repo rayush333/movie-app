@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import axios from 'axios';
 import {
   Grid,
   Row,
   Col,
   FormGroup,
   ControlLabel,
-  FormControl
+  FormControl,
+  Alert
 } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
@@ -16,6 +18,59 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "assets/img/faces/face-3.jpg";
 
 class UserProfile extends Component {
+  constructor() {
+    super();
+    this.state = {
+      item: {
+        name: "",
+        email: "",
+        password: "",
+        role: "",
+        tags: ["handwash"]
+      }
+    }
+    this.save = this.save.bind(this);
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
+    axios.get("http://localhost:4000/api/users/search/5f86c92a7397b03d88c0973b")
+      .then(res => {
+        const item = res.data;
+        this.setState({ item });
+        console.log(this.state)
+      })
+  }
+
+  handleChange(e) {
+    console.log("check", e.target.value)
+    const data = this.state.item;
+    data[e.target.name] = e.target.value
+    this.setState({ item: data });
+    console.log(this.state.item)
+  }
+
+  save() {
+    const item = this.state.item;
+    console.log(item)
+    const updatedItem =  {
+      "name": item.name,
+      "email": item.email,
+      "password": item.password,
+      "role": item.role
+    }
+    axios.put(`http://localhost:4000/api/users/5f86c92a7397b03d88c0973b`, updatedItem)
+      .then(alert('Profile Updated'))
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
+
+
   render() {
     return (
       <div className="content">
@@ -27,21 +82,25 @@ class UserProfile extends Component {
                 content={
                   <form>
                     <FormInputs
-                      ncols={["col-md-5", "col-md-5"]}
+                      ncols={["col-md-6", "col-md-6"]}
                       properties={[
                         {
                           label: "Username",
                           type: "text",
+                          name: "name",
                           bsClass: "form-control",
+                          onChange: this.handleChange,
                           placeholder: "Username",
-                          defaultValue: "Admin"
+                          defaultValue: this.state.item.name
                         },
                         {
                           label: "Email address",
-                          type: "email",
+                          type: "text",
+                          name: "email",
                           bsClass: "form-control",
+                          onChange: this.handleChange,
                           placeholder: "Email",
-                          defaultValue: "admin123@gmail.com"
+                          defaultValue: this.state.item.email
                         }
                       ]}
                     />
@@ -51,35 +110,27 @@ class UserProfile extends Component {
                         {
                           label: "Password",
                           type: "text",
+                          name: "password",
                           bsClass: "form-control",
-                          placeholder: "Password"
+                          onChange: this.handleChange,
+                          placeholder: "Password",
+                          defaultValue: this.state.item.password
                         },
                         {
                           label: "Role",
                           type: "text",
+                          name: "role",
                           bsClass: "form-control",
+                          onChange: this.handleChange,
                           placeholder: "Role",
-                          defaultValue: "ROLE_ADMIN"
+                          defaultValue: this.state.item.role
                         }
                       ]}
                     />
-                    <Row>
-                      <Col md={12}>
-                        <FormGroup controlId="formControlsTextarea">
-                          <ControlLabel>About Me</ControlLabel>
-                          <FormControl
-                            rows="5"
-                            componentClass="textarea"
-                            bsClass="form-control"
-                            placeholder="Here can be your description"
-                            defaultValue=""
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Button bsStyle="info" pullRight fill type="submit">
+                    <Button bsStyle="info" pullRight fill  onClick={this.save}>
                       Update Profile
                     </Button>
+                <div className="clearfix" />
                     <div className="clearfix" />
                   </form>
                 }

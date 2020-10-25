@@ -8,6 +8,10 @@ import MovieCategory from "views/admin/movie/Category.jsx";
 import MovieCategoryList from "views/admin/movie/List.jsx";
 import MovieAddCategory from "views/admin/movie/Add.jsx";
 
+import UserCategory from "views/admin/user/Category.jsx";
+import UserCategoryList from "views/admin/user/List.jsx";
+import UserAddCategory from "views/admin/user/Add.jsx";
+
 import Watchlist from "views/user/category/Watchlist.jsx";
 import Profile from "views/user/category/Profile.jsx"
 
@@ -22,7 +26,7 @@ const routes = {
       {
         path: "/category/genre",
         name: "Update Genre",
-        icon: "pe-7s-pen",
+        icon: "pe-7s-edit",
         component: Category,
         layout: "/admin"
       },
@@ -31,6 +35,13 @@ const routes = {
         name: "Update Movie",
         icon: "pe-7s-edit",
         component: MovieCategory,
+        layout: "/admin"
+      },
+      {
+        path: "/category/user",
+        name: "Update User",
+        icon: "pe-7s-edit",
+        component: UserCategory,
         layout: "/admin"
       },
       {
@@ -91,6 +102,20 @@ const routes = {
             icon: "pe-7s-graph",
             component: MovieCategoryList,
             layout: "/admin/category/movie"
+          },
+          {
+            path: "/add",
+            name: "Dashboard",
+            icon: "pe-7s-graph",
+            component: UserAddCategory,
+            layout: "/admin/category/user"
+          },
+          {
+            path: "/",
+            name: "Dashboard",
+            icon: "pe-7s-graph",
+            component: UserCategoryList,
+            layout: "/admin/category/user"
           }
           ]
       }

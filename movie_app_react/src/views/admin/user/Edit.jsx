@@ -10,13 +10,11 @@ class EditCategory extends Component {
     console.log(this.props)
     this.state = {
       item: {
-        movieTitle: "",
-        movieGenre: "",
-        movieDuration: "",
-        movieRating: "",
-        movieDescription: "",
-        movieImage: "",
-        movieTrailerUrl: "",
+        name: "",
+        email: "",
+        password: "",
+        role: "",
+        watchlist: [""],
         tags: ["handwash"]
       }
     }
@@ -25,7 +23,7 @@ class EditCategory extends Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:4000/api/movies/search/" + this.props.match.params.id)
+    axios.get("http://localhost:4000/api/users/search/" + this.props.match.params.id)
       .then(res => {
         const item = res.data;
         this.setState({ item });
@@ -45,18 +43,16 @@ class EditCategory extends Component {
     const item = this.state.item;
     console.log(item)
     const updatedItem =  {
-      "movieTitle": item.movieTitle,
-      "movieGenre": item.movieGenre,
-      "movieDuration": item.movieDuration,
-      "movieRating": item.movieRating,
-      "movieDescription": item.movieDescription,
-      "movieImage": item.movieImage,
-      "movieTrailerUrl": item.movieTrailerUrl
+      "name": item.name,
+      "email": item.email,
+      "password": item.password,
+      "role": item.role,
+      "watchlist": item.watchlist
     }
-    axios.put(`http://localhost:4000/api/movies/` + this.props.match.params.id, updatedItem)
+    axios.put(`http://localhost:4000/api/users/` + this.props.match.params.id, updatedItem)
       .then(res => {
         console.log(res);
-        this.props.history.push('/admin/category/movie')
+        this.props.history.push('/admin/category/user')
       })
       .catch(error => {
         console.log(error)
@@ -75,22 +71,22 @@ class EditCategory extends Component {
                   ncols={["col-md-6", "col-md-6"]}
                   properties={[
                     {
-                      label: "Movie Title",
+                      label: "User Name",
                       type: "text",
-                      name: "movieTitle",
+                      name: "name",
                       onChange: this.handleChange,
                       bsClass: "form-control ",
-                      placeholder: "title",
-                      defaultValue: this.state.item.movieTitle,
+                      placeholder: "Enter user name",
+                      defaultValue: this.state.item.name,
                     },
                     {
-                      label: "Movie Genre",
+                      label: "User Email",
                       type: "text",
-                      name: "movieGenre",
+                      name: "email",
                       onChange: this.handleChange,
                       bsClass: "form-control ",
-                      placeholder: "genre",
-                      defaultValue: this.state.item.movieGenre
+                      placeholder: "Enter user email",
+                      defaultValue: this.state.item.email
                     }
                   ]}
                 />
@@ -98,45 +94,22 @@ class EditCategory extends Component {
                   ncols={["col-md-6", "col-md-6"]}
                   properties={[
                     {
-                      label: "Movie Duration",
+                      label: "User Password",
                       type: "text",
-                      name: "movieDuration",
+                      name: "password",
                       onChange: this.handleChange,
                       bsClass: "form-control ",
-                      placeholder: "duration",
-                      defaultValue: this.state.item.movieDuration
+                      placeholder: "Enter user password",
+                      defaultValue: this.state.item.password
                     },
                     {
-                      label: "Movie Rating",
+                      label: "User Role",
                       type: "text",
-                      name: "movieRating",
+                      name: "role",
                       onChange: this.handleChange,
                       bsClass: "form-control ",
-                      placeholder: "rating",
-                      defaultValue: this.state.item.movieRating
-                    }
-                  ]}
-                />
-                <FormInputs
-                  ncols={["col-md-6", "col-md-6"]}
-                  properties={[
-                    {
-                      label: "Movie Image",
-                      type: "text",
-                      name: "movieImage",
-                      onChange: this.handleChange,
-                      bsClass: "form-control ",
-                      placeholder: "image",
-                      defaultValue: this.state.item.movieDescription
-                    },
-                    {
-                      label: "Movie TrailerUrl",
-                      type: "text",
-                      name: "movieTrailerUrl",
-                      onChange: this.handleChange,
-                      bsClass: "form-control ",
-                      placeholder: "trailer",
-                      defaultValue: this.state.item.movieImage
+                      placeholder: "Enter user role",
+                      defaultValue: this.state.item.role
                     }
                   ]}
                 />
@@ -144,13 +117,13 @@ class EditCategory extends Component {
                   ncols={["col-md-12"]}
                   properties={[
                     {
-                      label: "Movie Description",
+                      label: "User Watchlist",
                       type: "text",
-                      name: "movieDescription",
+                      name: "watchlist",
                       onChange: this.handleChange,
                       bsClass: "form-control ",
-                      placeholder: "description",
-                      defaultValue: this.state.item.movieTrailerUrl
+                      placeholder: "Enter user watchlist",
+                      defaultValue: this.state.item.watchlist
                     }
                   ]}
                 />

@@ -21,24 +21,19 @@ class CategoryList extends Component {
   add() {
     console.log(this.props);
     this.setState({ showForm: !this.state.showForm });
-    this.props.history.push('/admin/category/movie/add')
+    this.props.history.push('/admin/category/user/add')
   }
   edit(id) {
     console.log("ssss", id);
-    this.props.history.push('/admin/category/movie/edit/' + id);
+    this.props.history.push('/admin/category/user/edit/' + id);
   }
 
   delete(id) {
     console.log(this.props);
-    this.props.history.push('/admin/category/movie/delete/' +id)
+    this.props.history.push('/admin/category/user/delete/' +id)
   }
-
-  componentDidMount() {
-    this.list();
-  }
-
   list() {
-    axios.get("http://localhost:4000/api/movies")
+    axios.get("http://localhost:4000/api/users")
       .then(res => {
         const items = res.data;
         this.setState({ items });
@@ -46,12 +41,16 @@ class CategoryList extends Component {
       })
   }
 
+  componentDidMount() {
+    this.list();
+  }
+
   render() {
     return (
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col md={6}><h4>Movies</h4>
+            <Col md={6}><h4>Users</h4>
             </Col>
             <Col md={6}>
               {!this.state.showForm ? (
@@ -59,18 +58,15 @@ class CategoryList extends Component {
               ) : null
               }
             </Col>
-
             <Col md={12}>
 
               <Table striped hover>
                 <thead>
                   <tr>
-                    <td><h5><strong>Title</strong></h5></td>
-                    <td><h5><strong>Genre</strong></h5></td>
-                    <td><h5><strong>Duration</strong></h5></td>
-                    <td><h5><strong>Rating</strong></h5></td>
-                    <td><h5><strong>Description</strong></h5></td>
-                    <td colSpan={2} style={{textAlign:"center"}}><strong>Update</strong></td>
+                    <td><h5><strong>Name</strong></h5></td>
+                    <td><h5><strong>Email</strong></h5></td>
+                    <td><h5><strong>Role</strong></h5></td>
+                    <td colSpan={2} style={{textAlign:"center"}}><h5><strong>Update</strong></h5></td>
 
                   </tr>
                 </thead>
@@ -79,11 +75,9 @@ class CategoryList extends Component {
                   {this.state.items.map((prop, key) => {
                     return (
                       <tr key={key}>
-                        <td>{prop.movieTitle}</td>
-                        <td>{prop.movieGenre}</td>
-                        <td>{prop.movieDuration}</td>
-                        <td>{prop.movieRating}</td>
-                        <td>{prop.movieDescription}</td>
+                        <td>{prop.name}</td>
+                        <td>{prop.email}</td>
+                        <td>{prop.role}</td>
                         <td style={{textAlign:"center"}}>
                         <a href="javascript:void(0);" onClick={() => this.edit(prop._id)}>Edit</a>
                         </td><td style={{textAlign:"center"}}>
