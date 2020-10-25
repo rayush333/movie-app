@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DataTable from './data-table';
+import DataTable from './data-table.jsx';
 import MovieList from "modules/moviebrowser/movielist/MovieList";
 
 import InfiniteScroll from 'react-infinite-scroll-component'

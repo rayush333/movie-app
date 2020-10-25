@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DataTable from './data-table';
+import DataTable from './data-table.jsx';
 
 export class UserCard extends Component {
 
@@ -27,20 +27,8 @@ export class UserCard extends Component {
 
     render() {
         return (
-            <div className="wrapper-users">
-                <div className="container">
-                    <table className="table table-striped table-dark">
-                        <thead className="thead-dark">
-                            <tr>
-                                <td>Name</td>
-                                <td>Email</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.dataTable()}
-                        </tbody>
-                    </table>
-                </div>
+            <div>
+                {this.dataTable()}
             </div>
         )
     }

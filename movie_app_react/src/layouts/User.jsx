@@ -50,7 +50,7 @@ class User extends Component {
         return routes[i].name;
       }
     }
-    return "Brand";
+    return "User";
   };
   handleImageClick = image => {
     this.setState({ image: image });
