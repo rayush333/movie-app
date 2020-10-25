@@ -32,7 +32,7 @@ console.log(this.state.item)
 save(){
 const item = this.state.item ;
 console.log(item);
-    axios.post(`http://localhost:4000/api/users`, item)
+    axios.post(`http://localhost:4000/api/users/`, item)
       .then(res => {
         console.log(res.data);
         this.props.history.push('/admin/category/user')

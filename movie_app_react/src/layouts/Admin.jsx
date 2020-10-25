@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import UserNavbar from "components/Navbars/UserNavbar";
+import AdminNavbar from "components/Navbars/AdminNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 import routes from "routes.js";
@@ -50,7 +50,7 @@ class Admin extends Component {
         return routes[i].name;
       }
     }
-    return "Brand";
+    return "Admin";
   };
   handleImageClick = image => {
     this.setState({ image: image });
@@ -90,7 +90,7 @@ class Admin extends Component {
         color={this.state.color}
         hasImage={this.state.hasImage}/>
         <div id="main-panel" className="main-panel" ref="mainPanel">
-          <UserNavbar
+          <AdminNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />

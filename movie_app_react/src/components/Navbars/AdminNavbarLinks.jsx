@@ -1,8 +1,7 @@
-
 import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 
-class UserNavbar extends Component {
+class AdminNavbar extends Component {
   constructor(props) {
     super("123",props);
     console.log(props)
@@ -60,4 +59,4 @@ localStorage.clear();
   }
 }
 
-export default UserNavbar;
+export default AdminNavbar;

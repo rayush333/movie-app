@@ -1,11 +1,10 @@
-
 import React, { Component } from "react";
 import { Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import UserNavbarLinks from "./UserNavbarLinks.jsx";
+import AdminNavbarLinks from "./AdminNavbarLinks.jsx";
 
-class UserNavbar extends Component {
+class AdminNavbar extends Component {
   constructor(props) {
     super(props);
     this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
@@ -34,16 +33,16 @@ class UserNavbar extends Component {
       <Navbar fluid>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/user/profile">{this.props.brandText}</Link>
+            <Link to="/admin/user">{this.props.brandText}</Link>
           </Navbar.Brand>
           <Navbar.Toggle onClick={this.mobileSidebarToggle} />
         </Navbar.Header>
         <Navbar.Collapse>
-          <UserNavbarLinks {...this.props} />
+          <AdminNavbarLinks {...this.props} />
         </Navbar.Collapse>
       </Navbar>
     );
   }
 }
 
-export default UserNavbar;
+export default AdminNavbar;
