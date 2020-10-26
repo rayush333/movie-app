@@ -12,7 +12,7 @@ import { ProfileCard } from "views/admin/user/ProfileCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "assets/img/faces/face-3.jpg";
 
-
+const validEmailRegex = RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
 class DataTable extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +24,9 @@ class DataTable extends Component {
         role: this.props.obj.role,
         watchlist: this.props.obj.watchlist,
         tags: ["handwash"]
-      }
+      },
+      error: null,
+      message: null
     }
     this.clear = this.clear.bind(this);
     this.save = this.save.bind(this);
@@ -35,45 +37,70 @@ class DataTable extends Component {
     console.log("check", e.target.value)
     const data = this.state.item;
     data[e.target.name] = e.target.value
-    this.setState({ item: data });
+    let error = this.state.error;
+    switch (e.target.name) {
+      case 'name':
+        error =
+        e.target.value.length < 5
+                ? 'Full Name must be 5 characters long!'
+                : '';
+        break;
+      case 'email':
+        error =
+            validEmailRegex.test(e.target.value)
+                ? ''
+                : 'Email is not valid!';
+        break;
+      case 'password':
+        error =
+        e.target.value.length < 8
+                ? 'Password must be 8 characters long!'
+                : '';
+        break;
+      default:
+        break;
+    }
+    this.setState({ item: data, error});
     console.log(this.state.item)
   }
   clear() {
+    this.setState({ message:''});
     const item = this.state.item;
     console.log(item)
     const updatedItem =  {
       "name": item.name,
       "email": item.email,
       "password": item.password,
-      "role": item.role,
+      "role": "ROLE_USER",
       "watchlist": []
     }
     axios.put(`http://localhost:4000/api/users/` + this.props.obj._id, updatedItem)
-      .then(alert('Watchlist Cleared'))
       .then(res => {
-        console.log(res);
+        this.setState({ message:"Watchlist Cleared Successfully!" });
+
       })
       .catch(error => {
-        console.log(error)
+        this.setState({ error:error.response.data.msg ? error.response.data.msg : 'Sorry! Something went wrong. Try again!'});
       });
   }
 
   save() {
+    this.setState({ message:''});
     const item = this.state.item;
     console.log(item)
     const updatedItem =  {
       "name": item.name,
       "email": item.email,
       "password": item.password,
-      "role": item.role
+      "role": "ROLE_USER"
     }
     axios.put(`http://localhost:4000/api/users/` + this.props.obj._id, updatedItem)
-      .then(alert('Profile Updated'))
       .then(res => {
-        console.log(res);
+        this.setState({ message:"User Profile Updated Successfully!" });
+
       })
       .catch(error => {
-        console.log(error)
+        this.setState({ error:error.response.data.msg ? error.response.data.msg : 'Sorry! Something went wrong. Try again!'});
       });
   }
     render() {
@@ -85,6 +112,15 @@ class DataTable extends Component {
                   <Card
                     title="Edit Profile"
                     content={
+                      <div>
+                        { this.state.error && (
+                        <span style={{color: "red", fontSize:"14px"}}>{this.state.error}</span>
+                        )}
+                        { this.state.message && (
+                            <div>
+                              <span style={{color: "green", fontSize:"15px"}}>{this.state.message}</span>
+                            </div>
+                        )}
                       <form>
                         <FormInputs
                           ncols={["col-md-6", "col-md-6"]}
@@ -110,42 +146,19 @@ class DataTable extends Component {
                           ]}
                         />
                         <FormInputs
-                          ncols={["col-md-6", "col-md-6"]}
+                          ncols={["col-md-12"]}
                           properties={[
                             {
                               label: "Password",
-                              type: "text",
+                              type:"password",
                               name: "password",
                               bsClass: "form-control",
                               onChange: this.handleChange,
                               placeholder: "Password",
                               defaultValue: this.state.item.password
-                            },
-                            {
-                              label: "Role",
-                              type: "text",
-                              name: "role",
-                              bsClass: "form-control",
-                              onChange: this.handleChange,
-                              placeholder: "Role",
-                              defaultValue: this.state.item.role
                             }
                           ]}
                         />
-                        {/* <FormInputs
-                          ncols={["col-md-12"]}
-                          properties={[
-                            {
-                              label: "Watchlist",
-                              type: "text",
-                              name: "watchlist",
-                              bsClass: "form-control",
-                              onChange: this.handleChange,
-                              placeholder: "watchlist",
-                              defaultValue: this.state.item.watchlist
-                            }
-                          ]}
-                          /> */}
                         <Button bsStyle="info" pullRight fill  onClick={this.save}>
                           Update Profile
                         </Button>
@@ -155,6 +168,7 @@ class DataTable extends Component {
                     <div className="clearfix" />
                         <div className="clearfix" />
                       </form>
+                      </div>
                     }
                   />
                 </Col>

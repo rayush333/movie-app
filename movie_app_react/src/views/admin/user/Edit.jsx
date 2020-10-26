@@ -14,7 +14,6 @@ class EditCategory extends Component {
         email: "",
         password: "",
         role: "",
-        watchlist: [""],
         tags: ["handwash"]
       }
     }
@@ -46,8 +45,7 @@ class EditCategory extends Component {
       "name": item.name,
       "email": item.email,
       "password": item.password,
-      "role": item.role,
-      "watchlist": item.watchlist
+      "role": item.role
     }
     axios.put(`http://localhost:4000/api/users/` + this.props.match.params.id, updatedItem)
       .then(res => {
@@ -95,7 +93,7 @@ class EditCategory extends Component {
                   properties={[
                     {
                       label: "User Password",
-                      type: "text",
+                      type: "password",
                       name: "password",
                       onChange: this.handleChange,
                       bsClass: "form-control ",
@@ -110,20 +108,6 @@ class EditCategory extends Component {
                       bsClass: "form-control ",
                       placeholder: "Enter user role",
                       defaultValue: this.state.item.role
-                    }
-                  ]}
-                />
-                <FormInputs
-                  ncols={["col-md-12"]}
-                  properties={[
-                    {
-                      label: "User Watchlist",
-                      type: "text",
-                      name: "watchlist",
-                      onChange: this.handleChange,
-                      bsClass: "form-control ",
-                      placeholder: "Enter user watchlist",
-                      defaultValue: this.state.item.watchlist
                     }
                   ]}
                 />
