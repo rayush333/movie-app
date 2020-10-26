@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch ,Link, matchPath } from "react-router-dom";
+import UserNavbar from "components/Navbars/UserNavbar";
 import HomeNavbar from "components/Navbars/HomeNavbar";
 import Footer from "components/Footer/Footer";
 import MovieBrowser from "modules/moviebrowser/MovieBrowserContainer";
@@ -84,6 +85,7 @@ class Home extends Component {
     }
   };
 
+
   componentDidUpdate(e) {
     if (
       window.innerWidth < 993 &&
@@ -126,6 +128,16 @@ class Home extends Component {
               {this.state.genres && this.state.genres.map((prop, key) => {
               return (  <li key={key} className={matchPath(this.props.location.pathname, { path: `/movie/${prop.genre}` }) ? 'active' : ''} > <Link  to={`/movie/${prop.genre}`} >{prop.genre}</Link></li>);  
               })}
+              {localStorage.getItem('token') != null  &&
+              (<li className={matchPath(this.props.location.pathname, { path: '/user/watchlist' }) ? 'active' : ''}>
+                <Link to="/user/watchlist">Watchlist</Link>
+              </li>)
+              }
+              {localStorage.getItem('token') != null  &&
+              (<li className={matchPath(this.props.location.pathname, { path: '/user/profile' }) ? 'active' : ''}>
+                <Link to="/user/profile">Profile</Link>
+                </li>)
+              }
             </ul>
           </div>
         </div>
@@ -133,10 +145,13 @@ class Home extends Component {
         color={this.state.color}
         hasImage={this.state.hasImage}/> */}
         <div id="main-panel" className="main-panel" ref="mainPanel">
-          <HomeNavbar
+          {localStorage.getItem('token') != null ? (<UserNavbar
+              {...this.props}
+          />) :
+              (<HomeNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
-          />
+          />) }
           <Switch>{this.getRoutes(routes)}</Switch>
           <MovieBrowser/>
           <Footer />
