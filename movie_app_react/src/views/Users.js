@@ -28,10 +28,6 @@ function Users() {
             accessor: "email"
           },
           {
-            Header: "User Password",
-            accessor: "password"
-          },
-          {
             Header: "User Role",
             accessor: "role"
           }

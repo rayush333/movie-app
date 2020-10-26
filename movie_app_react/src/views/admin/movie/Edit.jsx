@@ -127,7 +127,7 @@ class EditCategory extends Component {
                       onChange: this.handleChange,
                       bsClass: "form-control ",
                       placeholder: "image",
-                      defaultValue: this.state.item.movieDescription
+                      defaultValue: this.state.item.movieImage
                     },
                     {
                       label: "Movie TrailerUrl",
@@ -136,7 +136,7 @@ class EditCategory extends Component {
                       onChange: this.handleChange,
                       bsClass: "form-control ",
                       placeholder: "trailer",
-                      defaultValue: this.state.item.movieImage
+                      defaultValue: this.state.item.movieTrailerUrl
                     }
                   ]}
                 />
@@ -150,7 +150,7 @@ class EditCategory extends Component {
                       onChange: this.handleChange,
                       bsClass: "form-control ",
                       placeholder: "description",
-                      defaultValue: this.state.item.movieTrailerUrl
+                      defaultValue: this.state.item.movieDescription
                     }
                   ]}
                 />

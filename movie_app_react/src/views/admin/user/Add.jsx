@@ -1,108 +1,177 @@
 import React, { Component } from "react";
-import { Grid, Row, Col, Button } from "react-bootstrap";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
+import { Card } from "components/Card/Card.jsx";
+import Button from "components/CustomButton/CustomButton.jsx";
+import { Row, Col, Grid } from "react-bootstrap";
 import axios from 'axios';
 
-class AddCategory extends Component {
-constructor(props) {
+
+const validEmailRegex = RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
+export class AddCategory extends Component {
+  constructor(props) {
     super(props);
-    console.log(this.props)
     this.state = {
-      item: {
-        name: "",
-        email: "",
-        password: "",
-        role: "",
-        tags: ["handwash"]
-      }
-    }
-    this.save = this.save.bind(this);
+      register: {
+        name: null,
+        email: null,
+        password: null,
+        role: 'ROLE_USER'
+      },
+      confirmPassword: null,
+      error: null,
+      message: null
+    };
     this.handleChange = this.handleChange.bind(this)
+    this.handleRegister = this.handleRegister.bind(this)
+
+
   }
 
-handleChange(e) {
-console.log("check",e.target.value)
+  handleChange = (e) => {
+    e.preventDefault();
+    const {name, value} = e.target;
+    console.log(e.target);
+    let error = this.state.error;
+    switch (name) {
+      case 'name':
+        error =
+            value.length < 5
+                ? 'Full Name must be 5 characters long!'
+                : '';
+        break;
+      case 'email':
+        error =
+            validEmailRegex.test(value)
+                ? ''
+                : 'Email is not valid!';
+        break;
+      case 'password':
+        error =
+            value.length < 8
+                ? 'Password must be 8 characters long!'
+                : '';
+        break;
+      case 'confirmPassword':
+        error =
+            value.length < 8
+                ? 'Password must be 8 characters long!'
+                : (value !== this.state.register.password ? 'Passwords do not match!' : '');
+        break;
+      default:
+        break;
+    }
 
-const data = this.state.item;
-data[e.target.name] = e.target.value
-this.setState({ item:data });
-console.log(this.state.item)
+    const data = this.state.register;
+    if (name === 'confirmPassword')
+      this.setState({confirmPassword: value})
+    else
+      data[name] = value;
+    this.setState({error, register: data}, () => {
+      console.log(error)
+    })
   }
 
-save(){
-const item = this.state.item ;
-console.log(item);
-    axios.post(`http://localhost:4000/api/users/`, item)
-      .then(res => {
-        console.log(res.data);
-        this.props.history.push('/admin/category/user')
-      })
-      .catch(error => {
-        console.log(error.response.data)
-    });
+  handleRegister(e) {
+    this.setState({ message:''});
+    const register = this.state.register;
+    if(null != this.state.register.name && null != this.state.register.email && null!= this.state.register.password && this.state.confirmPassword) {
+      axios.post(`http://localhost:4000/api/users/`, register)
+          .then(res => {
+            this.setState({ message:"User Added Successfully!" });
+
+          })
+          .catch(error => {
+            this.setState({ error:error.response.data.msg ? error.response.data.msg : 'Sorry! Something went wrong. Try again!'});
+          });
+    } else{
+      this.setState({ error:'Please enter the values correctly to get registered!'});
+    }
   }
 
   render() {
     return (
-      <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col>
-              <h4>Add New User</h4>
-              <form >
-                <FormInputs
-                  ncols={["col-md-6", "col-md-6"]}
-                  properties={[
-                    {
-                      label: "User Name",
-                      type: "text",
-                      name: "name",
-                      onChange:this.handleChange,
-                      bsClass: "form-control ",
-                      placeholder: "Enter user name",
-                      defaultValue: "",
-                    },
-                    {
-                      label: "User Email",
-                      type: "text",
-                      name: "email",
-                      onChange:this.handleChange,
-                      bsClass: "form-control ",
-                      placeholder: "Enter user email",
-                      defaultValue: "",
+      
+        <div className="content">
+          <Grid fluid>
+              <Row>
+                <Col>
+                  <Card
+                    title="Add New User"
+                    content={
+                      <div>
+                        { this.state.error && (
+                        <span style={{color: "red", fontSize:"14px"}}>{this.state.error}</span>
+                        )}
+                        { this.state.message && (
+                            <div>
+                              <span style={{color: "green", fontSize:"15px"}}>{this.state.message}</span>
+                            </div>
+                        )}
+                        <form >
+                          <FormInputs
+                              ncols={["col-md-6", "col-md-6"]}
+                              properties={[
+                                {
+                                  label: "",
+                                  type: "text",
+                                  name: "name",
+                                  onChange: this.handleChange,
+                                  bsClass: "form-control ",
+                                  placeholder: "Name",
+                                  defaultValue: ""
+                                },
+                                {
+                                  label: "",
+                                  type: "email",
+                                  name: "email",
+                                  onChange: this.handleChange,
+                                  bsClass: "form-control ",
+                                  placeholder: "Email Address",
+                                  defaultValue: ""
+                                }
+                              ]}
+                          />
+                          <FormInputs
+                            ncols={["col-md-12"]}
+                            properties={[
+                              {
+                                label: "",
+                                type: "password",
+                                name: "password",
+                                onChange: this.handleChange,
+                                bsClass: "form-control ",
+                                placeholder: "Password",
+                                defaultValue: ""
+                              }
+                            ]}
+                          />
+                          <FormInputs
+                              ncols={["col-md-12"]}
+                              properties={[
+                                {
+                                  label: "",
+                                  type: "password",
+                                  name: "confirmPassword",
+                                  onChange: this.handleChange,
+                                  bsClass: "form-control ",
+                                  placeholder: "Confirm Password",
+                                  defaultValue: ""
+                                }
+                              ]}
+                          />
+                          <Button bsStyle="info" pullLeft onClick={this.handleRegister}>Save</Button>
+                          <div className="clearfix" />
+                        </form>
+                      </div>
                     }
-                  ]}
-                />
-                <FormInputs
-                  ncols={["col-md-6", "col-md-6"]}
-                  properties={[
-                    {
-                      label: "User Password",
-                      type: "text",
-                      name: "password",
-                      onChange:this.handleChange,
-                      bsClass: "form-control ",
-                      placeholder: "Enter user password",
-                      defaultValue: "",
-                    },
-                    {
-                      label: "User Role",
-                      type: "text",
-                      name: "role",
-                      onChange:this.handleChange,
-                      bsClass: "form-control ",
-                      placeholder: "Enter user role",
-                      defaultValue: "",
-                    }
-                  ]}
-                />
-                <Button bsStyle="info" onClick={this.save}>Save</Button>
-                <div className="clearfix" />
-              </form>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
+                  />
+                </Col>
+              </Row>
+              </Grid>
+        </div>
+        
+        
+      
     );
   }
 }
