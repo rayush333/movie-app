@@ -140,12 +140,12 @@ class UserProfile extends Component {
               <ProfileCard
                 bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
                 avatar={avatar}
-                name="Admin"
-                userName="admin123@gmail.com"
+                name= {this.state.item.name}
+                userName={this.state.item.email}
                 description={
                   <span>
                     <br />
-                    Hello Admin
+                    <h4><strong>Hello Admin</strong></h4>
                     <br />
                   </span>
                 }

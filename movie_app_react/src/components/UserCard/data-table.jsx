@@ -26,6 +26,7 @@ class DataTable extends Component {
         tags: ["handwash"]
       }
     }
+    this.clear = this.clear.bind(this);
     this.save = this.save.bind(this);
     this.handleChange = this.handleChange.bind(this)
   }
@@ -37,6 +38,25 @@ class DataTable extends Component {
     this.setState({ item: data });
     console.log(this.state.item)
   }
+  clear() {
+    const item = this.state.item;
+    console.log(item)
+    const updatedItem =  {
+      "name": item.name,
+      "email": item.email,
+      "password": item.password,
+      "role": item.role,
+      "watchlist": []
+    }
+    axios.put(`http://localhost:4000/api/users/` + this.props.obj._id, updatedItem)
+      .then(alert('Watchlist Cleared'))
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
 
   save() {
     const item = this.state.item;
@@ -45,8 +65,7 @@ class DataTable extends Component {
       "name": item.name,
       "email": item.email,
       "password": item.password,
-      "role": item.role,
-      "watchlist": item.watchlist
+      "role": item.role
     }
     axios.put(`http://localhost:4000/api/users/` + this.props.obj._id, updatedItem)
       .then(alert('Profile Updated'))
@@ -113,7 +132,7 @@ class DataTable extends Component {
                             }
                           ]}
                         />
-                        <FormInputs
+                        {/* <FormInputs
                           ncols={["col-md-12"]}
                           properties={[
                             {
@@ -126,9 +145,12 @@ class DataTable extends Component {
                               defaultValue: this.state.item.watchlist
                             }
                           ]}
-                          />
+                          /> */}
                         <Button bsStyle="info" pullRight fill  onClick={this.save}>
                           Update Profile
+                        </Button>
+                        <Button bsStyle="info" pullLeft fill  onClick={this.clear}>
+                          Clear Watchlist
                         </Button>
                     <div className="clearfix" />
                         <div className="clearfix" />
